@@ -82,7 +82,7 @@ namespace Logistic.Controllers
             ViewBag.DirectionOfTransportations = directionOfTransportations;
             var addresses = await _context.Addresses.ToListAsync();
             ViewBag.Addresses = addresses;
-            var institutions = await _context.Institutions.ToListAsync();
+            var institutions = await _context.Institutions.Where(x => x.EnterpriseTypeId == 1).ToListAsync();
             ViewBag.Institutions = institutions;
             var paymentTypes = await _context.PaymentTypes.ToListAsync();
             ViewBag.PaymentTypes = paymentTypes;
@@ -113,7 +113,7 @@ namespace Logistic.Controllers
         {
             var directionOfTransportations = await _context.DirectionOfTransportations.ToListAsync();
             ViewBag.DirectionOfTransportations = directionOfTransportations;
-            var institutions = await _context.Institutions.ToListAsync();
+            var institutions = await _context.Institutions.Where(x => x.EnterpriseTypeId == 1).ToListAsync();
             ViewBag.Institutions = institutions;
             var paymentTypes = await _context.PaymentTypes.ToListAsync();
             ViewBag.PaymentTypes = paymentTypes;
@@ -247,6 +247,15 @@ namespace Logistic.Controllers
                 }
             }
 
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+        
+        public async Task<IActionResult> Lock(int? id)
+        {
+            var transportDocument = await _context.TransportDocuments.FirstOrDefaultAsync(x => x.Id == id);
+            transportDocument.IsLocked = !transportDocument.IsLocked;
+            _context.TransportDocuments.Update(transportDocument);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
