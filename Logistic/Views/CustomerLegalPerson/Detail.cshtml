@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    CustomerVM customerVM = Model;
+}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mt-0 header-title">Detail</h2>
+            <a asp-action="Index" class="btn btn-primary mb-3" style="justify-content:end">
+                Go Back
+            </a>
+            <div class="table-responsive">
+                <h3 class=" mt-5 " style="color:#297358">Customer</h3>
+                <table class="table table-bordered mb-3 table-responsive">
+                    <thead>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <th scope="row">Customer Type</th>
+                            <th scope="row">Name</th>
+                            <th scope="row">Director</th>
+                            <th scope="row">Voen</th>
+                            <th scope="row">Legal Address</th>
+                            <th scope="row">Physical Address</th>
+                            <th scope="row">Phone</th>
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@customerVM.CustomerLegalPerson.Id</td>
+                            <td>@customerVM.CustomerLegalPerson.CustomerType.Type</td>
+                            <td>@customerVM.CustomerLegalPerson.Name</td>
+                            <td>@customerVM.CustomerLegalPerson.Manager</td>
+                            <td>@customerVM.CustomerLegalPerson.Voen</td>
+                            <td>@customerVM.CustomerLegalPerson.LegalAddress</td>
+                            <td>@customerVM.CustomerLegalPerson.PhysicalAddress</td>
+                            <td>@customerVM.CustomerLegalPerson.Phone</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered mb-3 table-responsive">
+                    <thead>
+                        <tr>
+                            <th scope="row">Mail</th>
+                            <th scope="row">Bank</th>
+                            <th scope="row">Bank Kod</th>
+                            <th scope="row">Bank Swift</th>
+                            <th scope="row">Bank m/h</th>
+                            <th scope="row"> AZN H/H</th>
+                            <th scope="row"> EURO H/H</th>
+                            <th scope="row"> $ H/H</th>
+                            <th scope="row"> RUB H/H</th>
+                            <th scope="row"> Note</th>
+                            <th scope="row">File</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@customerVM.CustomerLegalPerson.Mail</td>
+                            <td>@customerVM.CustomerLegalPerson.Bank.Name</td>
+                            <td>@customerVM.CustomerLegalPerson.Bank.Kod</td>
+                            <td>@customerVM.CustomerLegalPerson.Bank.Swift</td>
+                            <td>@customerVM.CustomerLegalPerson.Bank.MH</td>
+                            <td>@customerVM.CustomerLegalPerson.HH1</td>
+                            <td>@customerVM.CustomerLegalPerson.HH2</td>
+                            <td>@customerVM.CustomerLegalPerson.HH3</td>
+                            <td>@customerVM.CustomerLegalPerson.HH4</td>
+                            <td>@customerVM.CustomerLegalPerson.Description</td>
+                            <td>
+                                <a href="~/files/@customerVM.CustomerLegalPerson.FileName" target="_blank">@customerVM.CustomerLegalPerson.FileName</a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+@*                <h3 class=" mt-5 " style="color:#297358">Customer Contract</h3>
+                
+                <a asp-controller="CustomerLegalPersonTable" asp-action="Create" asp-route-CustomerLegalPersonId="@customerVM.CustomerLegalPerson.Id" class="btn btn-success mb-3">Create</a>
+                <table style="width:100%" class="table mb-5 table-bordered table-hover table-sm index">
+                    <thead class="thead-doc">
+                        <tr>
+                            @*<th>Id</th>*@
+                            @*<th>Contract Type</th>
+                            <th>Valyuta</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Actions</th>*@
+
+                        @*</tr>*@
+                   @* </thead>
+                    <tbody>
+                        @foreach (CustomerLegalPersonTable customerLegalPersonTable in customerVM.CustomerLegalPersonTables)
+                        {
+                            <tr>
+                                @*<td>
+                                    @customerLegalPersonTable.Id
+                                </td>*@
+                               @* <td>
+                                    @customerLegalPersonTable.ContractType.Name
+                                </td>
+                                <td>
+                                    @customerLegalPersonTable.Valyuta.Name
+                                </td>
+                                <td>
+                                    @customerLegalPersonTable.Date
+                                </td>
+                                <td>
+                                    @Html.Raw(customerLegalPersonTable.Description)
+                                </td>*@
+                             @*   <td>
+                                    <a asp-controller="CustomerLegalPersonTable" asp-action="Update" asp-route-id="@customerLegalPersonTable.Id" class="btn btn-warning">Update</a>
+                                    <a asp-controller="CustomerLegalPersonTable" asp-action="Delete" asp-route-id="@customerLegalPersonTable.Id" class="btn btn-danger delete">Delete</a>
+                                </td>*@
+                          @*  </tr>*@
+                        @*}*@
+                  @*  </tbody>
+                </table>*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

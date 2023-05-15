@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    Bank bank = Model;
+}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mt-0 header-title">Detail</h2>
+            <a asp-action="Index" class="btn btn-primary mb-3" style="justify-content:end">
+                Go Back
+            </a>
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <td>
+                                @bank.Id
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Bank Type</th>
+                            <td>
+                                @bank.BankGroup.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>
+                                @bank.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Manager</th>
+                            <td>
+                                @bank.Manager
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Voen</th>
+                            <td>
+                                @bank.Voen
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Swift</th>
+                            <td>
+                                @bank.Swift
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Kod</th>
+                            <td>
+                                @bank.Kod
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">M/H</th>
+                            <td>
+                                @bank.MH
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Mail</th>
+                            <td>
+                                @bank.Mail
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone</th>
+                            <td>
+                                @bank.Phone
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Address</th>
+                            <td>
+                                @bank.Address
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Description</th>
+                            <td>
+                                @Html.Raw(bank.Description)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">File</th>
+                            <td>
+                                <a href="~/files/@bank.FileName" target="_blank">@bank.FileName</a>
+                                
+                            </td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

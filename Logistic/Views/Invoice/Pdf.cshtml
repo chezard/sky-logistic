@@ -1,0 +1,517 @@
+﻿@{
+    ViewData["Title"] = "Pdf";
+    InvoiceVM invoiceVM = Model;
+
+}
+
+
+<div class="row offset-1 mt-3">
+    <div class="ml-2">
+        <button class="btn btn-success" id="download"> Download pdf</button>
+        <a asp-action="Index" class="btn btn-primary" style="justify-content:end">
+            Go Back
+        </a>
+    </div>
+    <div class="ml-2">
+        <b>Expeditor: </b>
+        <button onclick="removeExp(this)">₼</button>
+        <button onclick="removeEuroExp(this)">€</button>
+        <button onclick="removeDollarExp(this)">$</button>
+        <button onclick="removeRubExp(this)">₽</button>
+        <b>Customer: </b>
+        <button  onclick="removeCus(this)"> ₼</button>
+        <button  onclick="removeEuroCus(this)">€</button>
+        <button  onclick="removeDollarCus(this)">$</button>
+        <button onclick="removeRubCus(this)">₽</button>
+    </div>
+</div>
+@if (invoiceVM.Invoice.Ekspeditor.Id != 0)
+{
+    @if (invoiceVM.Invoice.Ekspeditor.Id == 1)
+    {
+        <div class="col-10 offset-1" id="invoice">
+            <div style="padding:10px; background:#E44D72" class="head-pdf"></div>
+
+            <div class="title mt-2 mb-2">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h1 style="font-size:40px;margin-left:40px;color:#E44D72 !important" class="invoiceh1">@invoiceVM.Invoice.Title</h1>
+                    <div class="imageI"><img style="width:200px; height:100px; object-fit:cover;" class="invoiceImg" src="~/img/@invoiceVM.Invoice.Logo" alt=""></div>
+                </div>
+            </div>
+            <div class="row justify-content-between mx-3">
+
+                <div style="font-size:16px" class="col-6 mb-3">
+                    <h4 class="invoiceh5">@invoiceVM.Invoice.InternalCompany.Name</h4>
+
+                    <p class="iP ip-pdf"><b>Address:</b> @invoiceVM.Invoice.InternalCompany.LegalAddress</p>
+
+                    <p class="iP ip-pdf"><b>Tel:</b> @invoiceVM.Invoice.InternalCompany.Phone </p>
+
+                    <p class="iP ip-pdf"><b>Email:</b> @invoiceVM.Invoice.InternalCompany.Mail</p>
+
+                </div>
+                <div class="col-6 mb-3 d-flex flex-column align-items-end">
+                    <p class=" ip-pdf"><b>Date:</b> @invoiceVM.Invoice.Date</p>
+                    <p class=" ip-pdf"><b>Invoice No:</b> @invoiceVM.Invoice.InvoiceNumber</p>
+                    <p class=" ip-pdf"><b>Contract No:</b> @invoiceVM.Invoice.ContractNumber</p>
+                    <p class=" ip-pdf"><b>Booking No: SL</b> @invoiceVM.Invoice.TransportDocumentId</p>
+
+                </div>
+
+                <div class="col-6">
+
+                    <h4 style="font-size:16px" class="mt-2">Expeditor:</h4>
+                    <hr class="mt-0 mb-2" />
+                    <h5 style="font-size:13px" class="invoiceh5">@invoiceVM.Invoice.Ekspeditor.Name</h5>
+                    <p class="iP ip-pdf"><b>Expeditor TAX Id :</b> @invoiceVM.Invoice.Ekspeditor.Voen</p>
+                    <p class="iP ip-pdf"><b>Legal Address :</b> @invoiceVM.Invoice.Ekspeditor.LegalAddress</p>
+                    <p class="iP ip-pdf"><b>Bank :</b> @invoiceVM.Invoice.Ekspeditor.Bank.Name</p>
+                    <p class="iP ip-pdf"><b>TAX Id Bank :</b> @invoiceVM.Invoice.Ekspeditor.Bank.Voen</p>
+                    <p class="iP ip-pdf"><b>Code:</b> @invoiceVM.Invoice.Ekspeditor.Bank.Kod</p>
+                    <p class="iP ip-pdf"><b>Swift:</b> @invoiceVM.Invoice.Ekspeditor.Bank.Swift</p>
+                    <p class="iP ip-pdf" id="aznExp"><b>ACC. AZN :</b> @invoiceVM.Invoice.Ekspeditor.HH1</p>
+                    <p class="iP ip-pdf" id="euroExp"><b>ACC. Euro:</b> @invoiceVM.Invoice.Ekspeditor.HH2</p>
+                    <p class="iP ip-pdf" id="dollarExp"><b>ACC. Dollar:</b> @invoiceVM.Invoice.Ekspeditor.HH3</p>
+                    <p class="iP ip-pdf" id="rubExp"><b>ACC. Rubl:</b> @invoiceVM.Invoice.Ekspeditor.HH4</p>
+                    <p class="iP ip-pdf"><b>Corr. Bank: </b>@invoiceVM.Invoice.CorrespondentBankExpeditor.Name;<br />
+                    <p class="iP ip-pdf"><b>Corr. Bank Swift:</b>@invoiceVM.Invoice.CorrespondentBankExpeditor.Swift;<br />
+                    <p class="iP ip-pdf"><b>Corr. Acc:</b>@invoiceVM.Invoice.CorrespondentBankExpeditor.MH</p>
+                </div>
+                <div class="col-6">
+
+                    <h4 style="font-size:16px" class="mt-2">Customer:</h4>
+                    <hr class="mb-2 mt-0" />
+                    <h5 style="font-size:13px" class="invoiceh5">@invoiceVM.Invoice.Customer.Name</h5>
+                    <p class="iP"><b>Customer TAX Id :</b> @invoiceVM.Invoice.Customer.Voen</p>
+                    <p class="iP ip-pdf"><b>Legal Address :</b> @invoiceVM.Invoice.Customer.LegalAddress</p>
+                    <p class="iP ip-pdf"><b>Bank :</b> @invoiceVM.Invoice.Customer.Bank.Name</p>
+                    <p class="iP ip-pdf"><b>TAX Id :</b> @invoiceVM.Invoice.Customer.Bank.Voen</p>
+                    <p class="iP ip-pdf"><b>Code:</b> @invoiceVM.Invoice.Customer.Bank.Kod</p>
+                    <p class="iP ip-pdf"><b>Swift:</b> @invoiceVM.Invoice.Customer.Bank.Swift</p>
+                    <p class="iP ip-pdf" id="azn-customerCus"><b>ACC. AZN :</b>@invoiceVM.Invoice.Customer.HH1</p>
+                    <p class="iP ip-pdf" id="euro-customerCus"><b>ACC. Euro :</b> @invoiceVM.Invoice.Customer.HH2</p>
+                    <p class="iP ip-pdf" id="dollar-customerCus"><b>ACC. Dollar:</b> @invoiceVM.Invoice.Customer.HH3</p>
+                    <p class="iP ip-pdf" id="rub-customerCus"><b>ACC. Rubl:</b> @invoiceVM.Invoice.Customer.HH4</p>
+                    <p class="iP ip-pdf"><b>Corr. Bank: </b>@invoiceVM.Invoice.CorrespondentBankCustomer.Name;<br/>
+                    <p class="iP ip-pdf"><b>Corr. Bank Swift:</b>@invoiceVM.Invoice.CorrespondentBankCustomer.Swift;<br />
+                    <p class="iP ip-pdf"><b>Corr. Acc:</b>@invoiceVM.Invoice.CorrespondentBankCustomer.MH</p>
+                </div>
+                @*<p class="mt-3 mb-3 ip-pdf" style="margin-left:11px">
+        Hesab faktura_________ tarixli _______ müqavilə əsasında hazırlanmışdır
+        </p>*@
+                <div class="col-12 ">
+
+                    @{
+                        double common = 0;
+                    }
+                    <table class="table my-table">
+                        <thead style="background:#E44D72; color:#fff;margin-top:16px">
+                            <tr>
+                                <th class="w-50">Description</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var invoiceTable in invoiceVM.InvoiceTables)
+                            {
+                                var sum = @invoiceTable.Count * @invoiceTable.Price;
+                                common += sum;
+                                <tr>
+                                    <td>
+                                        @invoiceTable.Name
+                                    </td>
+                                    <td>
+                                        @invoiceTable.Count
+                                    </td>
+                                    <td>
+                                        @invoiceTable.Price
+                                    </td>
+                                    <td>
+                                        @sum
+                                    </td>
+
+                                </tr>
+                            }
+                            <tr>
+                                <td style="border-right:transparent">
+                                </td>
+                                <td style="border-left:transparent">
+                                </td>
+                                <td>
+                                    TOTAL
+                                </td>
+                                <td>
+                                    @common
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="col-12 ">
+                    <p style="color:red; font-size:12px; font-weight:bold;margin-top:16px" class="iP">Qeyd: @invoiceVM.Invoice.Note</p>
+                    <div style="margin:20px 10px 30px 120px" class="row align-items-center justify-content-between">
+                        <h5 style="font-size:16px">Direktor: </h5>
+                        <div class="d-flex align-items-center">
+                            <div class="stampContainer"><img class="stamp" src="~/img/@invoiceVM.Invoice.Stamp" alt=""></div>
+                            <h5 style="font-size:14px">@invoiceVM.Invoice.Director</h5>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:10px 20px;  color:#3d4960" class="font-weight-bold col-4 d-flex align-items-center justify-content-center flex-column"><p style="text-align:center" class="iP ip-pdf"> @invoiceVM.Invoice.Ekspeditor.Name</p></div>
+                <div style="padding:10px 20px; background:#3d4960; color:#fff" class="font-weight-bold col-8 d-flex align-items-center justify-content-center flex-column">
+                    <p style="text-align:center" class="iP ip-pdf">
+                        @invoiceVM.Invoice.Address
+                    </p>
+                    <p style="text-align:center" class="iP ip-pdf"> @invoiceVM.Invoice.InternalCompany.Mail</p>
+
+                </div>
+
+
+            </div>
+        </div>
+    }
+    else if (invoiceVM.Invoice.Ekspeditor.Id == 2)
+    {
+        <div class="col-10 offset-1" id="invoice">
+            <div style="padding:10px; background:#9209C2" class="head-pdf"></div>
+
+            <div class="title mt-2 mb-2">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h1 style="font-size:40px;margin-left:40px;color:#9209C2 !important" class="invoiceh1">@invoiceVM.Invoice.Title</h1>
+                    <div class="imageI"><img style="width:200px; height:100px; object-fit:cover;" class="invoiceImg" src="~/img/@invoiceVM.Invoice.Logo" alt=""></div>
+                </div>
+
+
+            </div>
+
+            <div class="row justify-content-between mx-3">
+
+                <div style="font-size:16px" class="col-6 mb-3">
+                    <h4 class="invoiceh5">@invoiceVM.Invoice.InternalCompany.Name</h4>
+
+                    <p class="iP ip-pdf"><b>Address:</b> @invoiceVM.Invoice.InternalCompany.LegalAddress</p>
+
+                    <p class="iP ip-pdf"><b>Tel:</b> @invoiceVM.Invoice.InternalCompany.Phone </p>
+
+                    <p class="iP ip-pdf"><b>Email:</b> @invoiceVM.Invoice.InternalCompany.Mail</p>
+
+                </div>
+                <div class="col-6 mb-3 d-flex flex-column align-items-end">
+
+
+                    <p class=" ip-pdf"><b>Date:</b> @invoiceVM.Invoice.Date</p>
+                    <p class=" ip-pdf"><b>Invoice No:</b> @invoiceVM.Invoice.InvoiceNumber</p>
+                    <p class=" ip-pdf"><b>Contract No:</b> @invoiceVM.Invoice.ContractNumber</p>
+                    <p class=" ip-pdf"><b>Booking No: SL</b> @invoiceVM.Invoice.TransportDocumentId</p>
+
+                </div>
+
+                <div class="col-6">
+                    <h4 style="font-size:16px" class="mt-2">Expeditor:</h4>
+                    <hr class="mt-0 mb-2" />
+                    <h5 style="font-size:13px" class="invoiceh5">@invoiceVM.Invoice.Ekspeditor.Name</h5>
+                    <p class="iP ip-pdf"><b>Expeditor TAX Id :</b> @invoiceVM.Invoice.Ekspeditor.Voen</p>
+                    <p class="iP ip-pdf"><b>Legal Address :</b> @invoiceVM.Invoice.Ekspeditor.LegalAddress</p>
+                    <p class="iP ip-pdf"><b>Bank :</b> @invoiceVM.Invoice.Ekspeditor.Bank.Name</p>
+                    <p class="iP ip-pdf"><b>TAX Id Bank :</b> @invoiceVM.Invoice.Ekspeditor.Bank.Voen</p>
+                    <p class="iP ip-pdf"><b>Code:</b> @invoiceVM.Invoice.Ekspeditor.Bank.Kod</p>
+                    <p class="iP ip-pdf"><b>Swift:</b> @invoiceVM.Invoice.Ekspeditor.Bank.Swift</p>
+                    <p class="iP ip-pdf" id="aznExp"><b>ACC. AZN :</b> @invoiceVM.Invoice.Ekspeditor.HH1</p>
+                    <p class="iP ip-pdf" id="euroExp"><b>ACC. Euro:</b> @invoiceVM.Invoice.Ekspeditor.HH2</p>
+                    <p class="iP ip-pdf" id="dollarExp"><b>ACC. Dollar:</b> @invoiceVM.Invoice.Ekspeditor.HH3</p>
+                    <p class="iP ip-pdf" id="rubExp"><b>ACC. Rubl:</b> @invoiceVM.Invoice.Ekspeditor.HH4</p>
+                    <p class="iP ip-pdf"><b>Corr. Bank: </b>@invoiceVM.Invoice.CorrespondentBankExpeditor.Name;<br />
+                    <p class="iP ip-pdf"><b>Corr. Bank Swift:</b>@invoiceVM.Invoice.CorrespondentBankExpeditor.Swift;<br />
+                    <p class="iP ip-pdf"><b>Corr. Acc:</b>@invoiceVM.Invoice.CorrespondentBankExpeditor.MH</p>
+                </div>
+                <div class="col-6">
+
+                    <h4 style="font-size:16px" class="mt-2">Customer:</h4>
+                    <hr class="mb-2 mt-0" />
+                    <h5 style="font-size:13px" class="invoiceh5">@invoiceVM.Invoice.Customer.Name</h5>
+                    <p class="iP"><b>Customer TAX Id :</b> @invoiceVM.Invoice.Customer.Voen</p>
+                    <p class="iP ip-pdf"><b>Legal Address :</b> @invoiceVM.Invoice.Customer.LegalAddress</p>
+                    <p class="iP ip-pdf"><b>Bank :</b> @invoiceVM.Invoice.Customer.Bank.Name</p>
+                    <p class="iP ip-pdf"><b>TAX Id :</b> @invoiceVM.Invoice.Customer.Bank.Voen</p>
+                    <p class="iP ip-pdf"><b>Code:</b> @invoiceVM.Invoice.Customer.Bank.Kod</p>
+                    <p class="iP ip-pdf"><b>Swift:</b> @invoiceVM.Invoice.Customer.Bank.Swift</p>
+                    <p class="iP ip-pdf" id="azn-customerCus"><b>ACC. AZN :</b>@invoiceVM.Invoice.Customer.HH1</p>
+                    <p class="iP ip-pdf" id="euro-customerCus"><b>ACC. Euro :</b> @invoiceVM.Invoice.Customer.HH2</p>
+                    <p class="iP ip-pdf" id="dollar-customerCus"><b>ACC. Dollar:</b> @invoiceVM.Invoice.Customer.HH3</p>
+                    <p class="iP ip-pdf" id="rub-customerCus"><b>ACC. Rubl:</b> @invoiceVM.Invoice.Customer.HH4</p>
+                    <p class="iP ip-pdf"><b>Corr. Bank: </b>@invoiceVM.Invoice.CorrespondentBankCustomer.Name;<br />
+                    <p class="iP ip-pdf"><b>Corr. Bank Swift:</b>@invoiceVM.Invoice.CorrespondentBankCustomer.Swift;<br />
+                    <p class="iP ip-pdf"><b>Corr. Acc:</b>@invoiceVM.Invoice.CorrespondentBankCustomer.MH</p>
+                   
+                </div>
+                @*<p class="mt-3 mb-3 ip-pdf" style="margin-left:11px">
+        Hesab faktura_________ tarixli _______ müqavilə əsasında hazırlanmışdır
+        </p>*@
+                <div class="col-12 ">
+
+                    @{
+                        double common = 0;
+                    }
+                    <table class="table my-table">
+                        <thead style="background:#9209C2; color:#fff;margin-top:16px">
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>SubTotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var invoiceTable in invoiceVM.InvoiceTables)
+                            {
+                                var sum = @invoiceTable.Count * @invoiceTable.Price;
+                                common += sum;
+                                <tr>
+                                    <td>
+                                        @invoiceTable.Name
+                                    </td>
+                                    <td>
+                                        @invoiceTable.Count
+                                    </td>
+                                    <td>
+                                        @invoiceTable.Price
+                                    </td>
+                                    <td>
+                                        @sum
+                                    </td>
+
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    TOTAL
+                                </td>
+                                <td>
+                                    @common
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="col-12 ">
+
+                    <p style="color:red; font-size:12px; font-weight:bold;margin-top:16px" class="iP">Qeyd: @invoiceVM.Invoice.Note</p>
+
+
+                    <div style="margin:20px 10px 30px 120px" class="row align-items-center justify-content-between">
+                        <h5 style="font-size:16px">Direktor: </h5>
+                        <div class="d-flex align-items-center">
+                            <div class="stampContainer"><img class="stamp" src="~/img/@invoiceVM.Invoice.Stamp" alt=""></div>
+                            <h5 style="font-size:14px">@invoiceVM.Invoice.Director</h5>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="padding:10px 20px;  color:#9209C2" class="font-weight-bold col-4 d-flex align-items-center justify-content-center flex-column"><p style="text-align:center" class="iP ip-pdf"> @invoiceVM.Invoice.Ekspeditor.Name</p></div>
+                <div style="padding:10px 20px; background:#9209C2; color:#fff" class="font-weight-bold col-8 d-flex align-items-center justify-content-center flex-column">
+
+
+
+                    <p style="text-align:center" class="iP ip-pdf">
+                        @invoiceVM.Invoice.Address
+                    </p>
+                    <p style="text-align:center" class="iP ip-pdf"> @invoiceVM.Invoice.InternalCompany.Mail</p>
+
+                </div>
+
+            </div>
+        </div>
+
+    }
+    else if (invoiceVM.Invoice.Ekspeditor.Id == 3)
+    {
+        <div class="col-10 offset-1" id="invoice">
+            <div style="padding:10px; background:green" class="head-pdf"></div>
+
+            <div class="title mt-2 mb-2">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h1 style="font-size:40px;margin-left:40px;color:green !important" class="invoiceh1">@invoiceVM.Invoice.Title</h1>
+                    <div class="imageI"><img style="width:200px; height:100px; object-fit:cover;" class="invoiceImg" src="~/img/@invoiceVM.Invoice.Logo" alt=""></div>
+                </div>
+
+
+            </div>
+
+            <div class="row justify-content-between mx-3">
+
+                <div style="font-size:16px" class="col-6 mb-3">
+                    <h4 class="invoiceh5">@invoiceVM.Invoice.InternalCompany.Name</h4>
+
+                    <p class="iP ip-pdf"><b>Address:</b> @invoiceVM.Invoice.InternalCompany.LegalAddress</p>
+
+                    <p class="iP ip-pdf"><b>Tel:</b> @invoiceVM.Invoice.InternalCompany.Phone </p>
+
+                    <p class="iP ip-pdf"><b>Email:</b> @invoiceVM.Invoice.InternalCompany.Mail</p>
+
+                </div>
+                <div class="col-6 mb-3 d-flex flex-column align-items-end">
+
+
+                    <p class=" ip-pdf"><b>Date:</b> @invoiceVM.Invoice.Date</p>
+                    <p class=" ip-pdf"><b>Invoice No:</b> @invoiceVM.Invoice.InvoiceNumber</p>
+
+                    <p class=" ip-pdf"><b>Contract No:</b> @invoiceVM.Invoice.ContractNumber</p>
+                    <p class=" ip-pdf"><b>Booking No: SL</b> @invoiceVM.Invoice.TransportDocumentId</p>
+
+                </div>
+
+                <div class="col-6">
+
+
+                    <h4 style="font-size:16px" class="mt-2">Expeditor:</h4>
+                    <hr class="mt-0 mb-2" />
+                    <h5 style="font-size:13px" class="invoiceh5">@invoiceVM.Invoice.Ekspeditor.Name</h5>
+                    <p class="iP ip-pdf"><b>Expeditor TAX Id :</b> @invoiceVM.Invoice.Ekspeditor.Voen</p>
+                    <p class="iP ip-pdf"><b>Legal Address :</b> @invoiceVM.Invoice.Ekspeditor.LegalAddress</p>
+                    <p class="iP ip-pdf"><b>Bank :</b> @invoiceVM.Invoice.Ekspeditor.Bank.Name</p>
+                    <p class="iP ip-pdf"><b>TAX Id Bank :</b> @invoiceVM.Invoice.Ekspeditor.Bank.Voen</p>
+                    <p class="iP ip-pdf"><b>Code:</b> @invoiceVM.Invoice.Ekspeditor.Bank.Kod</p>
+                    <p class="iP ip-pdf"><b>Swift:</b> @invoiceVM.Invoice.Ekspeditor.Bank.Swift</p>
+                    <p class="iP ip-pdf" id="aznExp"><b>ACC. AZN :</b> @invoiceVM.Invoice.Ekspeditor.HH1</p>
+                    <p class="iP ip-pdf" id="euroExp"><b>ACC. Euro:</b> @invoiceVM.Invoice.Ekspeditor.HH2</p>
+                    <p class="iP ip-pdf" id="dollarExp"><b>ACC. Dollar:</b> @invoiceVM.Invoice.Ekspeditor.HH3</p>
+                    <p class="iP ip-pdf" id="rubExp"><b>ACC. Rubl:</b> @invoiceVM.Invoice.Ekspeditor.HH4</p>
+                    <p class="iP ip-pdf"><b>Corr. Bank: </b>@invoiceVM.Invoice.CorrespondentBankExpeditor.Name;<br/>
+                    <p class="iP ip-pdf"><b>Corr. Bank Swift:</b>@invoiceVM.Invoice.CorrespondentBankExpeditor.Swift;<br />
+                    <p class="iP ip-pdf"><b>Corr. Acc:</b>@invoiceVM.Invoice.CorrespondentBankExpeditor.MH</p>
+
+                </div>
+                <div class="col-6">
+
+                    <h4 style="font-size:16px" class="mt-2">Customer:</h4>
+                    <hr class="mb-2 mt-0" />
+                    <h5 style="font-size:13px" class="invoiceh5">@invoiceVM.Invoice.Customer.Name</h5>
+                    <p class="iP"><b>Customer TAX Id :</b> @invoiceVM.Invoice.Customer.Voen</p>
+                    <p class="iP ip-pdf"><b>Legal Address :</b> @invoiceVM.Invoice.Customer.LegalAddress</p>
+                    <p class="iP ip-pdf"><b>Bank :</b> @invoiceVM.Invoice.Customer.Bank.Name</p>
+                    <p class="iP ip-pdf"><b>TAX Id :</b> @invoiceVM.Invoice.Customer.Bank.Voen</p>
+                    <p class="iP ip-pdf"><b>Code:</b> @invoiceVM.Invoice.Customer.Bank.Kod</p>
+                    <p class="iP ip-pdf"><b>Swift:</b> @invoiceVM.Invoice.Customer.Bank.Swift</p>
+                    <p class="iP ip-pdf" id="azn-customerCus"><b>ACC. AZN :</b>@invoiceVM.Invoice.Customer.HH1</p>
+                    <p class="iP ip-pdf" id="euro-customerCus"><b>ACC. Euro :</b> @invoiceVM.Invoice.Customer.HH2</p>
+                    <p class="iP ip-pdf" id="dollar-customerCus"><b>ACC. Dollar:</b> @invoiceVM.Invoice.Customer.HH3</p>
+                    <p class="iP ip-pdf" id="rub-customerCus"><b>ACC. Rubl:</b> @invoiceVM.Invoice.Customer.HH4</p>
+                    <p class="iP ip-pdf"><b>Corr. Bank: </b>@invoiceVM.Invoice.CorrespondentBankCustomer.Name;<br/>
+                    <p class="iP ip-pdf"><b>Corr. Bank Swift:</b>@invoiceVM.Invoice.CorrespondentBankCustomer.Swift;<br />
+                    <p class="iP ip-pdf"><b>Corr. Acc:</b>@invoiceVM.Invoice.CorrespondentBankCustomer.MH</p>
+
+                </div>
+               
+                <div class="col-12 ">
+
+                    @{
+                        double common = 0;
+                    }
+                    <table class="table my-table">
+                        <thead style="background:green; color:#fff;margin-top:16px">
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var invoiceTable in invoiceVM.InvoiceTables)
+                            {
+                                var sum = @invoiceTable.Count * @invoiceTable.Price;
+                                common += sum;
+                                <tr>
+                                    <td>
+                                        @invoiceTable.Name
+                                    </td>
+                                    <td>
+                                        @invoiceTable.Count
+                                    </td>
+                                    <td>
+                                        @invoiceTable.Price
+                                    </td>
+                                    <td>
+                                        @sum
+                                    </td>
+
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    TOTAL
+                                </td>
+                                <td>
+                                    @common
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="col-12 ">
+
+                    <p style="color:red; font-size:12px; font-weight:bold;margin-top:16px" class="iP">Note: @invoiceVM.Invoice.Note</p>
+
+
+                    <div style="margin:20px 10px 30px 120px" class="row align-items-center justify-content-between">
+                        <h5 style="font-size:16px">Direktor: </h5>
+                        <div class="d-flex align-items-center">
+                            <div class="stampContainer"><img class="stamp" src="~/img/@invoiceVM.Invoice.Stamp" alt=""></div>
+                            <h5 style="font-size:14px">@invoiceVM.Invoice.Director</h5>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="padding:10px 20px;  color:green" class="font-weight-bold col-4 d-flex align-items-center justify-content-center flex-column"><p style="text-align:center" class="iP ip-pdf"> @invoiceVM.Invoice.Ekspeditor.Name</p></div>
+                <div style="padding:10px 20px; background:green; color:#fff" class="font-weight-bold col-8 d-flex align-items-center justify-content-center flex-column">
+
+                    <p style="text-align:center" class="iP ip-pdf">
+                        @invoiceVM.Invoice.Address
+                    </p>
+                    <p style="text-align:center" class="iP ip-pdf"> @invoiceVM.Invoice.InternalCompany.Mail</p>
+
+                </div>
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-10 offset-1" id="invoice">
+            <h1>Yeni Invoice dizaynı üçün texniki dəstək komandasına müraciət edin</h1>
+
+        </div>
+    }
+}
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    List<TransportDocument> transportDocuments = Model;
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    DAŞINMA SƏNƏDİ
+                </h4>
+                <a asp-action="Create" class="btn btn-primary">Create</a>
+                <div class="table-responsive">
+                    <table data-ordering="false" class="data-table  index w-100">
+                        <thead>
+                            <tr>
+                                
+                                <th>Id</th> 
+                                @*<th>Manager</th>*@
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (TransportDocument transportDocument in transportDocuments) 
+                            {
+                            <tr>
+                                <td>
+                                    SL @transportDocument.Id
+                                </td>
+                               
+                                   
+                                    @*<td>
+                                        @transportDocument.TransportDocumentTables
+                                    </td>*@
+                                   
+                                
+                                <td>
+                                    @*<a asp-action="Detail" asp-route-id="@transportDocument.Id" class="btn btn-success">Detail</a>*@
+                                        <a style="padding:10px" asp-action="DetailAll" asp-route-id="@transportDocument.Id" class="btn btn-success">Detail All</a>
+                                        <a style="padding:10px" asp-action="Update" asp-route-id="@transportDocument.Id" class="btn btn-warning">Edit</a>
+                                        <a style="padding:10px" asp-action="Delete" asp-route-id="@transportDocument.Id" class="btn btn-danger delete disabled">Delete</a>
+                                </td>
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

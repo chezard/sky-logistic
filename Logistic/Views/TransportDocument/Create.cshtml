@@ -1,0 +1,311 @@
+﻿@model TransportDocument
+@{
+    ViewData["Title"] = "Create";
+    var countryList = ViewData["country"] as List<Country>;
+}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create</h4>
+                <form class="forms-sample" id="document_form" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Institution</label>
+                                <select class="custom-select " name="institutionId">
+                                    @foreach (Institution institution in ViewBag.Institutions)
+                                    {
+                                        <option value="@institution.Id">@institution.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Direction Of Transportation</label>
+                                <select class="custom-select " name="directionOfTransportationId">
+                                    @foreach (DirectionOfTransportation directionOfTransportation in ViewBag.DirectionOfTransportations)
+                                    {
+                                        <option value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>From (Country)</label>
+                                <select name="FirstCountry" class="form-control" id="countries">
+                                    <option value="">Seçin</option>
+                                    @foreach (var item in countryList)
+                                    {
+                                        <option value=@item.Id>@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>From (City)</label>
+                                <select name="FirstCity" class="form-control" id="cities">
+                                    <option value="">Seçin</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>To (Country)</label>
+                                <select name="LastCountry" class="form-control" id="lastcountries">
+                                    <option value="">Seçin</option>
+                                    @foreach (var item in countryList)
+                                    {
+                                        <option value=@item.Id>@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>To (City)</label>
+                                <select name="LastCity" class="form-control" id="lastcities">
+                                    <option value="">Seçin</option>
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label asp-for="Date">Date</label>
+                                <input type="date" asp-for="Date" class="form-control" placeholder="Date">
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Payment Type</label>
+                                <select class="custom-select " name="paymentTypeId">
+                                    @foreach (PaymentType paymentType in ViewBag.PaymentTypes)
+                                    {
+                                        <option value="@paymentType.Id">@paymentType.Name</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Assistant</label>
+                                <select class="custom-select " name="assistant1Id">
+                                    @foreach (Personal assistant1 in ViewBag.Personals)
+                                    {
+                                        <option value="@assistant1.Id">@assistant1.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label asp-for="Assistant2">Assistant 2</label>
+                                <input asp-for="Assistant2" class="form-control" placeholder="Assistant 2">
+                                <span asp-validation-for="Assistant2" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label asp-for="Assistant3">Assistant 3</label>
+                                <input asp-for="Assistant3" class="form-control" placeholder="Assistant 3">
+                                <span asp-validation-for="Assistant3" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label asp-for="Assistant4">Assistant 4</label>
+                                <input asp-for="Assistant4" class="form-control" placeholder="Assistant 4">
+                                <span asp-validation-for="Assistant4" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-primary mr-2">Create</button>
+                    <a asp-action="Index" class="btn btn-secondary">Go back</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/select2.js"></script>
+    
+    <script>
+
+
+
+        //$("#countries").change(function () {
+        //    console.log('RUNNED')
+        //    $("#cities").html('')
+        //    $("#cities").append(`<option value="">Loading...</option>`)
+        //    let countryId = $(this).val()
+        //    $.ajax({
+        //        url: `/Address/FindCity?countryId=${countryId}`,
+        //        type: "Get",
+        //        success: function (res)
+        //                    console.log(res)
+        //                        var resval = res.value
+        //                        $("#cities").html('')
+        //                        $("#cities").append(`<option value="">Seçin</option>`)
+        //                        for(var model of resval.data) {
+        //        $("#cities").append(`<option value=${model.Id}>${model.Name}</option>`)
+        //    }
+        //}
+        //                })
+        //        })
+
+        $(document).ready(function () {
+            $('#countries').select2();
+        });
+        $(document).ready(function () {
+            $('#cities').select2();
+        });
+        $(document).ready(function () {
+            $('#lastcountries').select2();
+        });
+        $(document).ready(function () {
+            $('#lastcities').select2();
+        });
+
+        $("#countries").change(function () {
+            let countryId = $(this).val();
+            console.log(countryId)
+            $("#cities").html('')
+            //$("#countries").html('')
+            //$("#countries").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: `/Address/FindCity?countryId=${countryId}`,
+                type: "Get",
+                success: function (res) {
+                    $("#cities").html('')
+                    $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of res) {
+                        $("#cities").append(`<option value=${model.id}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#lastcountries").change(function () {
+            let countryId = $(this).val();
+            console.log(countryId)
+            $("#lastcities").html('')
+            //$("#countries").html('')
+            //$("#countries").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: `/Address/FindCity?countryId=${countryId}`,
+                type: "Get",
+                success: function (res) {
+                    $("#lastcities").html('')
+                    $("#lastcities").append(`<option value="">Seçin</option>`)
+                    for (var model of res) {
+                        $("#lastcities").append(`<option value=${model.id}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+    </script>
+
+
+    @*<script>
+        let countryId = "";
+        $("#countrySearch").keyup(function () {
+            $("#cities").html('')
+            $("#citySearch").val("")
+            $("#countries").html('')
+            $("#countries").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FindCountry",
+                data: { Name: $(this).val() },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#countries").html('')
+                    $("#countries").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#countries").append(`<option value="${model.wikiDataId + "/" + model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+
+        $("#citySearch").keyup(function () {
+            $("#cities").html('')
+            $("#cities").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FilterCity",
+                data: { Key: $(this).val(), Country: countryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#cities").html('')
+                    $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#cities").append(`<option value="${model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+    </script>
+    <script>
+        let lastcountryId = "";
+        $("#lastcountrySearch").keyup(function () {
+            $("#lastcities").html('')
+            $("#lastcitySearch").val("")
+            $("#lastcountries").html('')
+            $("#lastcountries").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FindCountry",
+                data: { Name: $(this).val() },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#lastcountries").html('')
+                    $("#lastcountries").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#lastcountries").append(`<option value="${model.wikiDataId + "/" + model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#lastcountries").change(function () {
+            $("#lastcitySearch").val("")
+            $("#lastcities").html('')
+            $("#lastcities").append(`<option value="">Loading...</option>`)
+            lastcountryId = $(this).val().split("/")[0]
+            $.ajax({
+                url: "/Address/FindCity",
+                data: { Country: lastcountryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#lastcities").html('')
+                    $("#lastcities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#lastcities").append(`<option value=${model.name}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#lastcitySearch").keyup(function () {
+            $("#lastcities").html('')
+            $("#lastcities").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FilterCity",
+                data: { Key: $(this).val(), Country: lastcountryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#lastcities").html('')
+                    $("#lastcities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#lastcities").append(`<option value="${model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+    </script>*@
+}

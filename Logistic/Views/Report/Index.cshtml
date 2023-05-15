@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    List<TransportDocumentTable> transportDocumentTables = Model;
+
+}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mt-0 header-title">Reports Form</h2>
+
+            <div class="table-responsive">
+
+                <a asp-action="SendMail" class="btn btn-success">Send Mail</a>
+
+                <table data-ordering="false" id="myTable2" style="width:100%" class="table mb-5 table-bordered table-hover table-sm ">
+                    <thead class="thead-doc">
+                        <tr>
+                            @*<th>№</th>*@
+                            <th>SL NO:</th>
+                            <th>Type </th>
+                            <th>Inc</th>
+                            <th>Manager</th>
+                            <th>Date </th>
+                            <th>Status </th>
+                            <th>Customer</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Commodity</th>
+                            <th>Agent</th>
+                            @*<th>Direction</th>
+                            <th>Curr.</th>
+                            <th>Qty</th>
+                            <th>Sale</th>
+                            <th>Expence</th>
+                            <th>Profit</th>
+                            <th>Pre-Payment</th>
+                            <th>Debt</th>
+                            <th>Description</th>*@
+                        </tr>
+                    </thead>
+                    <tbody id="report-tbody">
+                        @foreach (TransportDocumentTable transportDocumentTable in transportDocumentTables)
+                        {
+                            double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
+
+                            double expense = 0;
+                            foreach (ApportionmentOfCostTable item in transportDocumentTable.MyProperty)
+                            {
+                                expense += item.Amount;
+                            }
+                            double end = transportDocumentTable.Salary - expense;
+
+                            <tr>
+                                @*<td>
+                            @transportDocumentTable.Id
+                            </td>*@
+                                <td>
+                                    SL @transportDocumentTable.TransportDocument.Id
+                                </td>
+                                <td>
+                                    @transportDocumentTable.ConditionOfCarriage.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.TypeOfTransportation.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Personal.Name
+                                </td>
+                                
+                                <td>
+                                    @transportDocumentTable.Date
+                                </td>
+                                <td>
+                                    @transportDocumentTable.StatusOfShipment.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Customer
+                                </td>
+                                <td>
+                                    @transportDocumentTable.AddressFrom
+                                </td>
+                                <td>
+                                    @transportDocumentTable.AddressTo
+                                </td>
+                               <td>
+                                    @transportDocumentTable.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Institution.Name
+                                </td>
+
+                                
+                               
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+
+    <script>
+
+        const totalRemainder = getTotal('class-totalRemainder')
+        const totalCommonSalary = getTotal('class-totalCommonSalary')
+        const totalEnd = getTotal('class-totalEnd')
+        const totalExpense = getTotal('class-totalExpense')
+        const totalSalary = getTotal('class-totalSalary')
+
+        console.log(totalRemainder, totalCommonSalary, totalEnd, totalExpense, totalSalary)
+
+        function getTotal(className) {
+            let cells = document.querySelectorAll('.' + className)
+            let total = 0;
+
+            cells.forEach(cell => {
+                total += Number(cell.innerText);
+            });
+
+            return total;
+        }
+
+        const tbody = document.getElementById('report-tbody')
+        const tr = document.createElement('tr')
+        for (let i = 0; i < 13; i++) {
+            tr.appendChild(document.createElement('td'))
+        }
+
+        let totalSalaryTd = document.createElement('td')
+        totalSalaryTd.innerText = totalSalary
+        tr.appendChild(totalSalaryTd)
+
+        let totalExpenseTd = document.createElement('td')
+        totalExpenseTd.innerText = totalExpense
+        tr.appendChild(totalExpenseTd)
+
+        let totalEndTd = document.createElement('td')
+        totalEndTd.innerText = totalEnd
+        tr.appendChild(totalEndTd)
+
+        let totalCommonSalaryTd = document.createElement('td')
+        totalCommonSalaryTd.innerText = totalCommonSalary
+        tr.appendChild(totalCommonSalaryTd)
+
+
+        let totalRemainderTd = document.createElement('td')
+        totalRemainderTd.innerText = totalRemainder
+        tr.appendChild(totalRemainderTd)
+
+
+
+        tr.appendChild(document.createElement('td'))
+        tr.appendChild(document.createElement('td'))
+
+        tbody.appendChild(tr)
+
+    </script>
+}

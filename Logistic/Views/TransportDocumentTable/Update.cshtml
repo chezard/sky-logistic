@@ -1,0 +1,469 @@
+﻿@model TransportDocumentTable
+@{
+    ViewData["Title"] = "Update";
+    var firstCountryList = ViewData["firstCountryList"] as List<Country>;
+    var firstCityList = ViewData["firstCityList"] as List<City>;
+    var lastCountryList = ViewData["lastCountryList"] as List<Country>;
+    var lastCityList = ViewData["lastCityList"] as List<City>;
+}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Update</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="form-group">
+                            <input asp-for="TransportDocumentId" class="form-control" type="hidden">
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Condition</label>
+                                <select class="custom-select " name="conditionOfCarriageId">
+                                    @foreach (ConditionOfCarriage conditionOfCarriage in ViewBag.ConditionOfCarriages)
+                                    {
+                                        if (Model.ConditionOfCarriageId == conditionOfCarriage.Id)
+                                        {
+                                            <option selected value="@conditionOfCarriage.Id">@conditionOfCarriage.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@conditionOfCarriage.Id">@conditionOfCarriage.Name</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Date">Date</label>
+                                <input asp-for="Date" class="form-control" placeholder="Date">
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Status</label>
+                                <select class="custom-select " name="statusOfShipmentId">
+                                    @foreach (StatusOfShipment statusOfShipment in ViewBag.StatusOfShipments)
+                                    {
+                                        if (Model.StatusOfShipmentId == statusOfShipment.Id)
+                                        {
+                                            <option selected value="@statusOfShipment.Id">@statusOfShipment.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@statusOfShipment.Id">@statusOfShipment.Name</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Transportation Type</label>
+                                <select class="custom-select " name="typeOfTransportationId">
+                                    @foreach (TypeOfTransportation typeOfTransportation in ViewBag.TypeOfTransportations)
+                                    {
+                                        if (Model.TypeOfTransportationId == typeOfTransportation.Id)
+                                        {
+                                            <option selected value="@typeOfTransportation.Id">@typeOfTransportation.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@typeOfTransportation.Id">@typeOfTransportation.Name</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Direction Of Transportation</label>
+                                <select class="custom-select " name="directionOfTransportationId">
+                                    @foreach (DirectionOfTransportation directionOfTransportation in ViewBag.DirectionOfTransportations)
+                                    {
+                                        if (Model.DirectionOfTransportationId == directionOfTransportation.Id)
+                                        {
+                                            <option selected value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Customer</label>
+                                <select class="custom-select " name="customer">
+                                    @foreach (CustomerLegalPerson customerLegalperson in ViewBag.CustomerLegalPeople)
+                                    {
+                                        if (Model.Customer == customerLegalperson.Name)
+                                        {
+                                            <option selected value="@customerLegalperson.Name">@customerLegalperson.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@customerLegalperson.Name">@customerLegalperson.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Agent</label>
+                                <select class="custom-select " name="institutionId">
+                                    @foreach (Institution institution in ViewBag.Institutions)
+                                    {
+                                        if (Model.InstitutionId == institution.Id)
+                                        {
+                                            <option selected value="@institution.Id">@institution.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@institution.Id">@institution.Name</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>From Country</label>
+                                <select name="FirstCountry" class="form-control" id="countries">
+                                    @foreach (var country in firstCountryList)
+                                    {
+                                        if (Model.AddressFrom.Split("/")[0] == country.Name)
+                                        {
+                                            <option selected value="@country.Id">@country.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@country.Id">@country.Name</option>
+                                        }
+                                    }
+                                </select>
+                               
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>From City</label>
+                                <select name="FirstCity" class="form-control" id="cities">
+                                    @foreach (var city in firstCityList)
+                                    {
+                                        if (Model.AddressFrom.Split("/")[1] == city.Name)
+                                        {
+                                            <option selected value="@city.Id">@city.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@city.Id">@city.Name</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>To Country</label>
+                                <select name="LastCountry" class="form-control" id="lastcountries">
+                                    @foreach (var country in lastCountryList)
+                                    {
+                                        if (Model.AddressTo.Split("/")[0] == country.Name)
+                                        {
+                                            <option selected value="@country.Id">@country.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@country.Id">@country.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>To City</label>
+                                <select name="LastCity" class="form-control" id="lastcities">
+                                    @foreach (var city in lastCityList)
+                                    {
+                                        if (Model.AddressTo.Split("/")[1] == city.Name)
+                                        {
+                                            <option selected value="@city.Id">@city.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@city.Id">@city.Name</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Curreny</label>
+                                <select class="custom-select " name="valyutaId">
+                                    @foreach (Valyuta valyuta in ViewBag.Valyutas)
+                                    {
+                                        if (Model.ValyutaId == valyuta.Id)
+                                        {
+                                            <option selected value="@valyuta.Id">@valyuta.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@valyuta.Id">@valyuta.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+
+
+
+
+
+                            <div class="form-group">
+                                <label asp-for="DriverName">Driver</label>
+                                <input asp-for="DriverName" class="form-control" placeholder="DriverName">
+                                <span asp-validation-for="DriverName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DriverPhone">DriverPhone</label>
+                                <input asp-for="DriverPhone" class="form-control" placeholder="DriverPhone">
+                                <span asp-validation-for="DriverPhone" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="TruckPlate">TruckPlate</label>
+                                <input asp-for="TruckPlate" class="form-control" placeholder="TruckPlate">
+                                <span asp-validation-for="TruckPlate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Name">Commodity</label>
+                                <input asp-for="Name" class="form-control" placeholder="Name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Count">Quantity</label>
+                                <input asp-for="Count" class="form-control" placeholder="Say">
+                                <span asp-validation-for="Count" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Salary">Sale</label>
+                                <input asp-for="Salary" class="form-control" placeholder="Gelir">
+                                <span asp-validation-for="Salary" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CommonSalary">Common Salary</label>
+                                <input asp-for="CommonSalary" class="form-control" placeholder="Paid">
+                                <span asp-validation-for="CommonSalary" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group form-group-float w-lg-50">
+                                <label>Manager</label>
+                                <select class="custom-select " name="personalId">
+                                    @foreach (Personal manager in ViewBag.Personals)
+                                    {
+                                        if (Model.PersonalId == manager.Id)
+                                        {
+                                            <option selected value="@manager.Id">@manager.Name</option>
+                                        }
+
+                                        {
+                                            <option value="@manager.Id">@manager.Name</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description">Description</label>
+                                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Update</button>
+                    <a asp-action="Index" class="btn btn-secondary">Go back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/select2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#countries').select2();
+        });
+        $(document).ready(function () {
+            $('#cities').select2();
+        });
+        $(document).ready(function () {
+            $('#lastcountries').select2();
+        });
+        $(document).ready(function () {
+            $('#lastcities').select2();
+        });
+
+        $("#countries").change(function () {
+            let countryId = $(this).val();
+            console.log(countryId)
+            $("#cities").html('')
+            //$("#countries").html('')
+            //$("#countries").append(` <option value="">Loading...</option>`)
+            $.ajax({
+                url: `/Address/FindCity?countryId=${countryId}`,
+                type: "Get",
+                success: function (res) {
+                    $("#cities").html('')
+                    $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of res) {
+                        $("#cities").append(`<option value=${model.id}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#lastcountries").change(function () {
+            let countryId = $(this).val();
+            console.log(countryId)
+            $("#lastcities").html('')
+            //$("#countries").html('')
+            //$("#countries").append(< option value = "" > Loading...</option>`)
+            $.ajax({
+                url: `/Address/FindCity?countryId=${countryId}`,
+                type: "Get",
+                success: function (res) {
+                    $("#lastcities").html('')
+                    $("#lastcities").append(`<option value="">Seçin</option>`)
+                    for (var model of res) {
+                        $("#lastcities").append(`<option value=${model.id}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+    </script>
+
+    }
+
+
+@* <script>
+        let countryId = "";
+        $("#countrySearch").keyup(function () {
+            $("#cities").html('')
+            $("#citySearch").val("")
+            $("#countries").html('')
+            $("#countries").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FindCountry",
+                data: { Name: $(this).val() },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#countries").html('')
+                    $("#countries").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#countries").append(`<option value="${model.wikiDataId + "/" + model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#countries").change(function () {
+            $("#citySearch").val("")
+            $("#cities").html('')
+            $("#cities").append(`<option value="">Loading...</option>`)
+            countryId = $(this).val().split("/")[0]
+            $.ajax({
+                url: "/Address/FindCity",
+                data: { Country: countryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#cities").html('')
+                    $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#cities").append(`<option value=${model.name}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#citySearch").keyup(function () {
+            $("#cities").html('')
+            $("#cities").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FilterCity",
+                data: { Key: $(this).val(), Country: countryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#cities").html('')
+                    $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#cities").append(`<option value="${model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+    </script>
+    <script>
+        let lastcountryId = "";
+        $("#lastcountrySearch").keyup(function () {
+            $("#lastcities").html('')
+            $("#lastcitySearch").val("")
+            $("#lastcountries").html('')
+            $("#lastcountries").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FindCountry",
+                data: { Name: $(this).val() },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#lastcountries").html('')
+                    $("#lastcountries").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#lastcountries").append(`<option value="${model.wikiDataId + "/" + model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#lastcountries").change(function () {
+            $("#lastcitySearch").val("")
+            $("#lastcities").html('')
+            $("#lastcities").append(`<option value="">Loading...</option>`)
+            lastcountryId = $(this).val().split("/")[0]
+            $.ajax({
+                url: "/Address/FindCity",
+                data: { Country: lastcountryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#lastcities").html('')
+                    $("#lastcities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#lastcities").append(`<option value=${model.name}>${model.name}</option>`)
+                    }
+                }
+            })
+        })
+
+        $("#lastcitySearch").keyup(function () {
+            $("#lastcities").html('')
+            $("#lastcities").append(`<option value="">Loading...</option>`)
+            $.ajax({
+                url: "/Address/FilterCity",
+                data: { Key: $(this).val(), Country: lastcountryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                    $("#lastcities").html('')
+                    $("#lastcities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#lastcities").append(`<option value="${model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+        })
+    </script>*@
+
+

@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    InvoiceVM invoiceVM = Model;
+
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="mt-0 header-title">Detail</h2>
+                <a asp-action="Index" class="btn btn-primary mb-3" style="justify-content:end">
+                    Go Back
+                </a>
+                <div class="col-10 offset-1" id="invoice">
+                    <div class="title mt-3 mb-5">
+                        <h1 class="invoiceh1">@invoiceVM.Invoice.Title</h1>
+                        <div class="imageI"><img class="invoiceImg" src="~/img/@invoiceVM.Invoice.Logo" alt=""></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="invoiceh5">@invoiceVM.Invoice.InternalCompany.Name</h5>
+                            <p class="iP">Address: @invoiceVM.Invoice.InternalCompany.LegalAddress</p>
+                            <p class="iP">Tel: @invoiceVM.Invoice.InternalCompany.Phone </p>
+                            <p class="iP">Email: @invoiceVM.Invoice.InternalCompany.Mail</p>
+                        </div>
+                        <div class="col-6">
+                            <p>Tarix: @invoiceVM.Invoice.Date</p>
+                            <p>Invoice No: @invoiceVM.Invoice.InvoiceNumber</p>
+                            <p>Contract No: @invoiceVM.Invoice.ContractNumber</p>
+                        </div>
+                        <br />
+                        <div class="col-6">
+                            <br />
+                            <h3>Ekspeditor</h3>
+                            <br/>
+                            <h5 class="invoiceh5">@invoiceVM.Invoice.Ekspeditor.Name</h5>
+                            <p class="invoiceh5"><b>Müxbir bank:</b> @invoiceVM.Invoice.CorrespondentBankExpeditor.Name;Swift: @invoiceVM.Invoice.CorrespondentBankExpeditor.Swift; Müxbir hesabı: @invoiceVM.Invoice.CorrespondentBankExpeditor.MH;</p>
+                            <h5 class="invoiceh5">SL @invoiceVM.Invoice.TransportDocumentId</h5>
+
+                        </div>
+                        <div class="col-6">
+                            <br />
+                            <h3>Alıcı</h3>
+                            <br />
+                            <h5 class="invoiceh5">@invoiceVM.Invoice.Customer.Name</h5>
+                            <p class="invoiceh5"><b>Müxbir bank:</b> @invoiceVM.Invoice.CorrespondentBankCustomer.Name; Swift: @invoiceVM.Invoice.CorrespondentBankCustomer.Swift;Müxbir hesabı: @invoiceVM.Invoice.CorrespondentBankCustomer.MH;</p>
+                            <h5 class="invoiceh5">SL @invoiceVM.Invoice.TransportDocumentId</h5>
+                        </div>
+                        <div class="col-12 mt-5">
+                            <a asp-controller="InvoiceTable" asp-action="Create" asp-route-Iid="@invoiceVM.Invoice.Id" class="btn btn-success mb-3">Create</a>
+
+                            @{
+                                double common = 0;
+                            }
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Təsvir</th>
+                                        <th>Miqdar</th>
+                                        <th>Qiymət</th>
+                                        <th>Cəm</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var invoiceTable in invoiceVM.InvoiceTables)
+                                    {
+                                        var sum = @invoiceTable.Count * @invoiceTable.Price;
+                                        common += sum;
+                                        <tr>
+                                            <td>
+                                                @invoiceTable.Name
+                                            </td>
+                                            <td>
+                                                @invoiceTable.Count
+                                            </td>
+                                            <td>
+                                                @invoiceTable.Price
+                                            </td>
+                                            <td>
+                                                @sum
+                                            </td>
+                                            <td>
+                                                <a asp-controller="InvoiceTable" asp-action="Update" asp-route-id="@invoiceTable.Id" class="btn btn-warning">Update</a>
+                                                <a asp-controller="InvoiceTable" asp-action="Delete" asp-route-id="@invoiceTable.Id" class="btn btn-danger delete">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            ÜMUMİ
+                                        </td>
+                                        <td>
+                                            @common
+                                        </td>
+                                        <td>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+

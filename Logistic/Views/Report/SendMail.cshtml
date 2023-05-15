@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    List<TransportDocumentTable> transportDocumentTables = Model;
+
+}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mt-0 header-title">Reports Form</h2>
+
+            <div class="row g-5">
+            <h4 class="mb-3">Send Email</h4>
+                <form method="post" asp-controller="Report" asp-action="SendMail">
+            <div class="row g-3">
+            <div class="col-12">
+            <input class="form-control" type="text" name="to" placeholder="Send to" required />
+            </div>
+            <div class="col-12">
+            <input class="form-control" type="text" name="subject" placeholder="Subject" required />
+            </div>
+            <div class="col-12">
+            <textarea id="Report" class="form-control" type="text" name="body" placeholder="Message" required>
+            <table id="myTable2" style="width:100%" class="table mb-5 table-bordered table-hover table-sm ">
+            <thead class="thead-doc">
+            <tr>
+            @*<th>№</th>*@
+            <th>Transport Document</th>
+            <th>Condition </th>
+            <th>Date </th>
+            <th>Status </th>
+            <th>Transportation Type</th>
+            <th>Transportation Direction</th>
+            <th>Customer</th>
+            <th>Partnyor</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Valyuta</th>
+            <th>Carry Name</th>
+            <th>Count</th>
+            <th>Salary</th>
+            <th>Expence</th>
+            <th>End</th>
+            <th>Common Salary</th>
+            <th>Remainder</th>
+            <th>Manager</th>
+            <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (TransportDocumentTable transportDocumentTable in transportDocumentTables)
+            {
+                double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
+
+                double expense = 0;
+                foreach (ApportionmentOfCostTable item in transportDocumentTable.MyProperty)
+                {
+                    expense += item.Amount;
+                }
+                double end = transportDocumentTable.Salary - expense;
+            <tr>
+
+           @* <td>
+            @transportDocumentTable.Id
+            </td>*@
+            <td>
+            SL @transportDocumentTable.TransportDocument.Id
+            </td>
+            <td>
+            @transportDocumentTable.ConditionOfCarriage.Name
+            </td>
+            <td>
+            @transportDocumentTable.Date
+            </td>
+
+            <td>
+            @transportDocumentTable.StatusOfShipment.Name
+            </td>
+            <td>
+            @transportDocumentTable.TypeOfTransportation.Name
+            </td>
+            <td>
+            @transportDocumentTable.DirectionOfTransportation.Type
+            </td>
+            <td>
+            @transportDocumentTable.Customer
+            </td>
+            <td>
+            @transportDocumentTable.Institution.Name
+            </td>
+            <td>
+            @*@transportDocumentTable.From.Name*@
+            </td>
+            <td>
+            @*@transportDocumentTable.To.Name*@
+            </td>
+            <td>
+            @transportDocumentTable.Valyuta.Name
+            </td>
+            <td>
+            @transportDocumentTable.Name
+            </td>
+            <td>
+            @transportDocumentTable.Count
+            </td>
+            <td>
+            @transportDocumentTable.Salary
+            </td>
+            <td>
+            @expense
+            </td>
+            <td>
+                
+                @end
+            </td>
+            <td>
+                @transportDocumentTable.CommonSalary
+            </td>
+            <td>
+                
+                @remainder
+            </td>
+            <td>
+            @transportDocumentTable.Personal.Name
+            </td>
+            <td>
+            @Html.Raw(transportDocumentTable.Description)
+            </td>
+            </tr>
+
+            }
+            </tbody>
+            </table>
+            </textarea>
+            </div>
+            <div class="col-12">
+            <input type="submit" class="btn btn-success" value="Submit" />
+            </div>
+            <div class="form-group">
+            <div class="text-success">
+            
+            </div>
+            </div>
+            </div>
+            </form>
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+

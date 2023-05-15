@@ -1,0 +1,105 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    Personal personal = Model;
+}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mt-0 header-title">Detail</h2>
+            <a asp-action="Index" class="btn btn-primary mb-3" style="justify-content:end">
+                Go Back
+            </a>
+            <div class="table-responsive">
+                <table class="table table-bordered mb-0">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <td>
+                                @personal.Id
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>
+                                @personal.Name
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Surname</th>
+                            <td>
+                                @personal.Surname
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fathers Name</th>
+                            <td>
+                                @personal.FathersName
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Birthday</th>
+                            <td>
+                                @personal.Birthday
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Personnel Type</th>
+                            <td>
+                                @personal.PersonnelType.Name
+                            </td>
+                        </tr>
+                       @* <tr>
+                            <th scope="row">Position</th>
+                            <td>
+                                @personal.Position.Name
+                            </td>
+                        </tr>*@
+                        <tr>
+                            <th scope="row">Phone</th>
+                            <td>
+                                @personal.Phone
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Mail</th>
+                            <td>
+                                @personal.Mail
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Address</th>
+                            <td>
+                                @personal.Address
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Personal Information</th>
+                            <td>
+                                @Html.Raw(personal.PersonalInformation)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Description</th>
+                            <td>
+                                @Html.Raw(personal.Description)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">File</th>
+                            <td>
+                                <a href="~/files/@personal.FileName" target="_blank">@personal.FileName</a>
+                                
+                            </td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

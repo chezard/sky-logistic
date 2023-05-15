@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    List<BankGroup> bankGroups = Model;
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div style="margin-top:20px; margin-bottom:20px;">
+                    <h4 class="card-title">Bank Qrup</h4>
+                    <a asp-action="Create" class="btn btn-success">Create</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table  index w-100">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (BankGroup bankGroup in bankGroups)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @bankGroup.Name
+                                    </td>
+                                    <td>
+                                        <a style="padding:10px" asp-action="Detail" asp-route-id="@bankGroup.Id" class="btn btn-success">Detail</a>
+                                        <a style="padding:10px" asp-action="Update" asp-route-id="@bankGroup.Id" class="btn btn-warning">Edit</a>
+                                        <a style="padding:10px" asp-action="Delete" asp-route-id="@bankGroup.Id" class="btn btn-danger delete">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

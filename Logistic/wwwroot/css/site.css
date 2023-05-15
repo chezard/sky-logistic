@@ -1,0 +1,112 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+
+
+
+/*
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    cursor: none;
+}/
+
+#canvas {
+    background-color: lightgray;
+    width: 100%;
+    height: 100%;
+}
+
+input{
+    border:1px solid black;
+}
+
+
+.table {
+    background: #fff;
+    /overflow-y: auto;*/
+box-shadow: 0px 10px 50px 0px rgba(0,0,0,0.5);
+border-radius: 10px;
+padding: 2rem;
+}
+
+.thead-doc {
+    background-color: #3D1766 !important;
+    color: white;
+}
+
+
+
+
+.invoiceImg {
+    height: 85px;
+    width: 85px;
+}
+
+.invoiceh1 {
+    color: red;
+    text-align: center;
+}
+
+.invoiceh5 {
+    color: black;
+}
+
+.imageI {
+    text-align: center;
+}
+
+.iP {
+    margin: 0;
+}
+
+.ip-pdf {
+    font-size: 12px !important
+}
+
+.my-table {
+    border-collapse: collapse;
+    border: hidden
+}
+
+    .my-table td, .my-table th {
+        border: 0.1px solid #c3c3c3;
+        border-collapse: collapse;
+    }
+
+    .my-table thead tr th {
+        font-size: 12px;
+    }
+
+
+    .my-table tbody tr td {
+        font-size: 12px;
+        padding: 16px;
+    }
+
+.stamp {
+    width: 100px;
+    height: auto;
+}
+
+.stampContainer {
+    position: relative;
+}

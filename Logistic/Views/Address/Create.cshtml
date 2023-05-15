@@ -1,0 +1,128 @@
+﻿@model CreateAddressVM
+@{
+    ViewData["Title"] = "Create";
+    var country = ViewData["country"] as CountryModel;
+}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    
+                        <div class="d-flex">
+
+                    <div class="form-group col-6">
+                        <label asp-for="Country">Name</label>
+                         <input id="countrySearch" type="text" class="form-control border border-primary my-1" placeholder="Search country">
+                        <select asp-for=Country  class="form-control" id="countries">
+                           <option value="">Seçin</option>
+                        @foreach (var item in country.Data)
+                       {
+                           <option value=@item.WikiDataId/@item.Name>@item.Name</option>
+                       }
+                        </select>
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+
+                     <div class="form-group col-6">
+                        <label asp-for=City>City</label>
+                        <input id="citySearch" class="form-control border border-primary my-1" placeholder="Search city">
+                        <select asp-for=City class="form-control" id="cities">
+                           <option value="">Seçin</option>
+                        </select>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TopGroup">Top Group</label>
+                        <input asp-for="TopGroup" class="form-control" placeholder="Top Group">
+                        <span asp-validation-for="TopGroup" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date">Date</label>
+                        <input asp-for="Date" class="form-control" placeholder="Date">
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Create</button>
+                    <a asp-action="Index" class="btn btn-secondary">Go back</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+
+<script>
+    let countryId="";
+    $("#countrySearch").keyup(function(){
+               $("#cities").html('')
+               $("#citySearch").val("")
+               $("#countries").html('')
+               $("#countries").append(`<option value="">Loading...</option>`)
+           $.ajax({
+                url: "/Address/FindCountry",
+                data: { Name: $(this).val() },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                      $("#countries").html('')
+               $("#countries").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#countries").append(`<option value="${model.wikiDataId+"/"+model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+    })
+
+        $("#countries").change(function(){
+             $("#citySearch").val("")
+             $("#cities").html('')
+             $("#cities").append(`<option value="">Loading...</option>`)
+             countryId=$(this).val().split("/")[0]
+           $.ajax({
+                url: "/Address/FindCity",
+                data: { Country: countryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                       $("#cities").html('')
+                      $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#cities").append(`<option value=${model.name}>${model.name}</option>`)
+                    }
+                }
+            })
+    })
+
+     $("#citySearch").keyup(function(){
+          $("#cities").html('')
+          $("#cities").append(`<option value="">Loading...</option>`)
+           $.ajax({
+                url: "/Address/FilterCity",
+                data: { Key: $(this).val(),Country:countryId },
+                type: "Post",
+                success: function (res) {
+                    var resval = res.value
+                        $("#cities").html('')
+                      $("#cities").append(`<option value="">Seçin</option>`)
+                    for (var model of resval.data) {
+                        $("#cities").append(`<option value="${model.name}">${model.name}</option>`)
+                    }
+                }
+            })
+    })
+
+</script>
+
+}

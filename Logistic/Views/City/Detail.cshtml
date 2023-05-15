@@ -1,0 +1,221 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    TransportDocumentVM transportDocumentVM = Model;
+
+}
+
+@{
+    foreach (TransportDocumentTable transportDocumentTable1 in transportDocumentVM.TransportDocumentTables)
+    {
+
+    }
+
+}
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mt-0 header-title">Detail</h2>
+            <a asp-action="Index" class="btn btn-primary mb-3" style="justify-content:end">
+                Go Back
+            </a>
+            <div class="table-responsive">
+                <h3 class=" mt-5 " style="color:#297358">Transport Document</h3>
+                <table class="table table-bordered mb-3">
+                    <thead>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <th scope="row">Ekspeditor</th>
+                            <th scope="row">Direction</th>
+                            <th scope="row">From</th>
+                            <th scope="row">To</th>
+                            <th scope="row">Date</th>
+                            <th scope="row">Payment Type</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                SL @transportDocumentVM.TransportDocument.Id
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.Institution.Name
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.DirectionOfTransportation.Type
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.FirstAddress
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.LastAddress
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.Date
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.PaymentType.Name
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered mb-3">
+                    <thead>
+                        <tr>
+                            <th scope="row">Assistant1</th>
+                            <th scope="row">Assistant2</th>
+                            <th scope="row">Assistant3</th>
+                            <th scope="row">Assistant4</th>
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @transportDocumentVM.TransportDocument.Assistant1.Name
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.Assistant2
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.Assistant3
+                            </td>
+                            <td>
+                                @transportDocumentVM.TransportDocument.Assistant4
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <h3 class=" mt-5 " style="color:#297358">Transport Document Table</h3>
+                <a asp-controller="TransportDocumentTable" asp-action="Create" asp-route-tId="@transportDocumentVM.TransportDocument.Id" class="btn btn-success mb-3">Create</a>
+
+                <table id="myTable" style="width:100%" class="table mb-5 table-bordered table-hover table-sm ">
+                    <thead class="thead-doc">
+                        <tr>
+                            @* <th>Id</th>*@
+                            <th>Condition </th>
+                            <th>Date </th>
+                            <th>Status </th>
+                            <th>Transportation Type</th>
+                            <th>Transportation Direction</th>
+                            <th>Customer</th>
+                            <th>Agent</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Currency</th>
+                            <th>Commodity</th>
+                            <th>Quantity</th>
+                            <th>Sale</th>
+                            <th>Expense</th>
+                            <th>Profit</th>
+                            <th>Pre-Payment</th>
+                            <th>Debt</th>
+                            <th>Manager</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (TransportDocumentTable transportDocumentTable in transportDocumentVM.TransportDocumentTables)
+                        {
+                            double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
+
+                            double expense = 0;
+                            foreach (ApportionmentOfCostTable item in transportDocumentTable.MyProperty)
+                            {
+                                expense += item.Amount;
+                            }
+                            double end = transportDocumentTable.Salary - expense;
+
+                            <tr>
+
+                                @*<td>
+                            @transportDocumentTable.Id
+                            </td>*@
+
+                                <td>
+                                    @transportDocumentTable.ConditionOfCarriage.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Date
+                                </td>
+
+                                <td>
+                                    @transportDocumentTable.StatusOfShipment.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.TypeOfTransportation.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.DirectionOfTransportation.Type
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Customer
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Institution.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.AddressFrom
+                                </td>
+                                <td>
+                                    @transportDocumentTable.AddressTo
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Valyuta.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Name
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Count
+                                </td>
+                                <td>
+                                    @transportDocumentTable.Salary
+                                </td>
+                                <td>
+                                    @expense
+                                    <a asp-controller="TransportDocumentTable" asp-action="Detail" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Expense</a>
+
+                                </td>
+
+                                <td>
+
+                                    @end
+                                </td>
+                                <td>
+                                    @transportDocumentTable.CommonSalary
+                                </td>
+                                <td>
+
+                                    @remainder
+                                </td>
+
+                                <td>
+                                    @transportDocumentTable.Personal.Name
+                                </td>
+                                <td>
+                                    @Html.Raw(transportDocumentTable.Description)
+                                </td>
+                                <td>
+                                    <a asp-controller="TransportDocumentTable" asp-action="Update" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Edit</a>
+                                    <a asp-controller="TransportDocumentTable" asp-action="Delete" asp-route-id="@transportDocumentTable.Id" class="btn btn-danger delete">Delete</a>
+                                </td>
+                            </tr>
+
+
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

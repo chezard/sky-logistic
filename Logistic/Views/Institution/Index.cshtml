@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    List<Institution> institutions = Model;
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">MÜƏSSİƏLƏR</h4>
+                <a asp-action="Create" class="btn btn-primary">Create</a>
+                <div class="table-responsive">
+                    <table data-ordering="false" class="data-table  index w-100">
+                        <thead>
+                            <tr>
+                                
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Director</th>
+                                <th>Note</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Institution institution in institutions)
+                            {
+                            <tr>
+                                <td>
+                                    @institution.Id
+                                </td>
+                                <td>
+                                    @institution.Name
+                                </td>
+                                <td>
+                                    @institution.Leader
+                                </td>
+
+                                    <td>
+                                        @institution.Description
+                                    </td>
+
+                                <td>
+                                        <a style="padding:10px" asp-action="Detail" asp-route-id="@institution.Id" class="btn btn-success">Detail</a>
+                                        <a style="padding:10px" asp-action="Update" asp-route-id="@institution.Id" class="btn btn-warning">Edit</a>
+                                        <a style="padding:10px" asp-action="Delete" asp-route-id="@institution.Id" class="btn btn-danger delete">Delete</a>
+                                </td>
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

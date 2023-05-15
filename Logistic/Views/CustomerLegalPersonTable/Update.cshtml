@@ -1,0 +1,81 @@
+﻿@model CustomerLegalPersonTable
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Customer </label>
+                        <select class="custom-select " name="customerLegalPersonId">
+                            @foreach (CustomerLegalPerson customerLegalPerson in ViewBag.CustomerLegalPeople)
+                            {
+                                if (Model.CustomerLegalPersonId == customerLegalPerson.Id)
+                                {
+                                    <option selected value="@customerLegalPerson.Id">@customerLegalPerson.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@customerLegalPerson.Id">@customerLegalPerson.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Contract Type</label>
+                        <select class="custom-select " name="contractTypeId">
+                            @foreach (ContractType contractType in ViewBag.ContractTypes)
+                            {
+                                if (Model.ContractTypeId==contractType.Id)
+                                {
+                                    <option selected value="@contractType.Id">@contractType.Name</option>
+                                    
+                                }else
+                                {
+                                    <option value="@contractType.Id">@contractType.Name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Valyuta</label>
+                        <select class="custom-select " name="valyutaId">
+                            @foreach (Valyuta valyuta in ViewBag.Valyutas)
+                            {
+                                if (Model.ValyutaId==valyuta.Id)
+                                {
+                                    <option selected value="@valyuta.Id">@valyuta.Name</option>
+
+                                }else
+                                {
+                                    <option value="@valyuta.Id">@valyuta.Name</option>
+                                    
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date">Date</label>
+                        <input asp-for="Date" class="form-control" placeholder="Date">
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                    <a asp-controller="CustomerLegalPerson" asp-action="Detail" asp-route-id="@Model.CustomerLegalPersonId" class="btn btn-secondary">Go back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

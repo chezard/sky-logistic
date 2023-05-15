@@ -1,0 +1,234 @@
+﻿@model Invoice
+@{
+    ViewData["Title"] = "Update";
+}
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label asp-for="Title">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Title">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContractNumber">Contract number</label>
+                        <input asp-for="ContractNumber" class="form-control" placeholder="Contract Number">
+                        <span asp-validation-for="ContractNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Photo">Logo</label>
+                        <input asp-for="Photo" class="form-control" type="file">
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="StampPhoto">Stamp Photo</label>
+                        <input asp-for="StampPhoto" class="form-control" type="file">
+                        <span asp-validation-for="StampPhoto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Internal Company</label>
+                        <select class="custom-select " name="internalCompanyId">
+                            @foreach (Institution internalCompany in ViewBag.Institutions)
+                            {
+                                if (Model.InternalCompanyId == internalCompany.Id)
+                                {
+                                    <option selected value="@internalCompany.Id">@internalCompany.Name</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@internalCompany.Id">@internalCompany.Name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Date">Date</label>
+                        <input asp-for="Date" class="form-control" placeholder="Date">
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InvoiceNumber">Invoice Number</label>
+                        <input asp-for="InvoiceNumber" class="form-control" placeholder="Invoice Number">
+                        <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Ekspeditor</label>
+                        <select class="custom-select " name="ekspeditorId">
+                            @foreach (Institution ekspeditor in ViewBag.Institutions)
+                            {
+                                if (Model.EkspeditorId == ekspeditor.Id)
+                                {
+                                    <option selected value="@ekspeditor.Id">@ekspeditor.Name</option>
+
+                                }
+                                else
+                                {
+                                    <option value="@ekspeditor.Id">@ekspeditor.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Müxbir Bank - Expeditor</label>
+                        <select class="custom-select " name="correspondetnBanksExpeditor" id="correspondetnBanksExpeditor">
+                            @foreach (CorrespondentBank correspondetnBank in ViewBag.CorrespondentBanks)
+                            {
+                                if (correspondetnBank.Id == Model.CorrespondentBankExpeditorId)
+                                {
+                                    <option selected="selected" value="@correspondetnBank.Id">Müxbir Bank Növü -@correspondetnBank.CorrespondentBankGroup; Müxbir Bank-@correspondetnBank.Name;   Swift-@correspondetnBank.Swift;  M/H-@correspondetnBank.MH</option>
+                                }
+                                else
+                                {
+                                    <option value="@correspondetnBank.Id">Müxbir Bank Növü -@correspondetnBank.CorrespondentBankGroup; Müxbir Bank-@correspondetnBank.Name;   Swift-@correspondetnBank.Swift;  M/H-@correspondetnBank.MH</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Customer</label>
+                        <select class="custom-select " name="customerId">
+                            @foreach (CustomerLegalPerson customer in ViewBag.CustomerLegalPeople)
+                            {
+                                if (Model.CustomerId == customer.Id)
+                                {
+                                    <option selected value="@customer.Id">@customer.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@customer.Id">@customer.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Müxbir Bank - Customer</label>
+                        <select class="custom-select " name="correspondetnBanksCustomer" id="correspondetnBanksCustomer">
+                            @foreach (CorrespondentBank correspondetnBank in ViewBag.CorrespondentBanks)
+                            {
+                                if (correspondetnBank.Id == Model.CorrespondentBankCustomerId)
+                                {
+                                    <option selected="selected" value="@correspondetnBank.Id">Müxbir Bank Növü -@correspondetnBank.CorrespondentBankGroup; Müxbir Bank-@correspondetnBank.Name;   Swift-@correspondetnBank.Swift;  M/H-@correspondetnBank.MH</option>
+                                }
+                                else
+                                {
+                                    <option value="@correspondetnBank.Id">Müxbir Bank Növü -@correspondetnBank.CorrespondentBankGroup; Müxbir Bank-@correspondetnBank.Name;   Swift-@correspondetnBank.Swift;  M/H-@correspondetnBank.MH</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Transport number</label>
+                        <select class="custom-select " name="transportId">
+                            @foreach (TransportDocument transport in ViewBag.TransportDocuments)
+                            {
+                                if (Model.TransportDocumentId == transport.Id)
+                                {
+                                    <option selected value="@transport.Id">SL @transport.Id</option>
+                                }
+                                else
+                                {
+                                    <option value="@transport.Id">SL @transport.Id</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note">Note</label>
+                        <input asp-for="Note" class="form-control" placeholder="Note">
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Director">Director</label>
+                        <input asp-for="Director" name="Director" disabled class="form-control" placeholder="Director">
+                        <span asp-validation-for="Director" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address">Address</label>
+                        <input asp-for="Address" name="Address" disabled class="form-control" placeholder="Address">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                    <a asp-action="Index" class="btn btn-secondary">Go back</a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/select2.js"></script>
+    <script>
+        var institutions = @Html.Raw(Json.Serialize(ViewBag.Institutions));
+        var directorInput = document.querySelector('input[name="Director"]');
+        var address = document.querySelector('input[name="Address"]');
+
+        document.querySelector('select[name="ekspeditorId"]').addEventListener('change', function () {
+            var selectedInstitutionId = this.value;
+            var selectedInstitution = institutions.find(function (institution) {
+                return institution.id == selectedInstitutionId;
+
+            });
+
+            if (selectedInstitution && selectedInstitution.leader && selectedInstitution.physicalAddress) {
+                directorInput.value = selectedInstitution.leader;
+                address.value = selectedInstitution.physicalAddress
+            }
+        });
+
+
+        $(document).ready(function () {
+            $('#correspondetnBanksExpeditor').select2();
+        });
+        $(document).ready(function () {
+            $('#correspondetnBanksCustomer').select2();
+        });
+
+        $("#correspondetnBanksExpeditor").change(function () {
+            let correspondetnBanksId = $(this).val();
+
+            console.log(correspondetnBanksId)
+            //$("#cities").html('')
+            ////$("#countries").html('')
+            ////$("#countries").append(`<option value="">Loading...</option>`)
+            //$.ajax({
+            //    url: `/Address/FindCity?countryId=${countryId}`,
+            //    type: "Get",
+            //    success: function (res) {
+            //        $("#cities").html('')
+            //        $("#cities").append(`<option value="">Seçin</option>`)
+            //        for (var model of res) {
+            //            $("#cities").append(`<option value=${model.id}>${model.name}</option>`)
+            //        }
+            //    }
+            //})
+        })
+
+        $("#correspondetnBanksCustomer").change(function () {
+            let correspondetnBanksId = $(this).val();
+
+            console.log(correspondetnBanksId)
+            //$("#cities").html('')
+            ////$("#countries").html('')
+            ////$("#countries").append(`<option value="">Loading...</option>`)
+            //$.ajax({
+            //    url: `/Address/FindCity?countryId=${countryId}`,
+            //    type: "Get",
+            //    success: function (res) {
+            //        $("#cities").html('')
+            //        $("#cities").append(`<option value="">Seçin</option>`)
+            //        for (var model of res) {
+            //            $("#cities").append(`<option value=${model.id}>${model.name}</option>`)
+            //        }
+            //    }
+            //})
+        })
+    </script>
+}

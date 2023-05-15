@@ -1,0 +1,121 @@
+﻿@model Institution
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Edit</h4>
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Enterprise Type</label>
+                        <select class="custom-select " name="enterpriseTypeId">
+                            @foreach (EnterpriseType enterpriseType in ViewBag.EnterpriseTypes)
+                            {
+                                if (Model.EnterpriseTypeId==enterpriseType.Id)
+                                {
+                                    <option selected value="@enterpriseType.Id">@enterpriseType.Name</option>
+
+                                }else
+                                {
+                                    <option value="@enterpriseType.Id">@enterpriseType.Name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name">Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Name">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Leader">Leader</label>
+                        <input asp-for="Leader" class="form-control" placeholder="Leader">
+                        <span asp-validation-for="Leader" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Voen">Voen</label>
+                        <input asp-for="Voen" class="form-control" placeholder="Voen">
+                        <span asp-validation-for="Voen" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LegalAddress">Legal Address</label>
+                        <input asp-for="LegalAddress" class="form-control" placeholder="Legal Address">
+                        <span asp-validation-for="LegalAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhysicalAddress">Physical Address</label>
+                        <input asp-for="PhysicalAddress" class="form-control" placeholder="Physical Address">
+                        <span asp-validation-for="PhysicalAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone">Phone</label>
+                        <input asp-for="Phone" class="form-control" placeholder="Phone">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mail">Mail</label>
+                        <input asp-for="Mail" class="form-control" placeholder="Mail">
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-group-float w-lg-50">
+                        <label>Bank</label>
+                        <select class="custom-select " name="bankId">
+                            @foreach (Bank bank in ViewBag.Banks)
+                            {
+                                if (Model.BankId==bank.Id)
+                                {
+                                    <option selected value="@bank.Id">Bank-@bank.Name;  Kod-@bank.Kod;  Swift-@bank.Swift;  M/H-@bank.MH</option>
+
+                                }else
+                                {
+                                    <option value="@bank.Id">Bank-@bank.Name;  Kod-@bank.Kod;  Swift-@bank.Swift;  M/H-@bank.MH</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HH1">AZN HH</label>
+                        <input asp-for="HH1" class="form-control" placeholder="AZN HH">
+                        <span asp-validation-for="HH1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HH2">EURO HH</label>
+                        <input asp-for="HH2" class="form-control" placeholder="EURO HH">
+                        <span asp-validation-for="HH2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HH3">$ HH</label>
+                        <input asp-for="HH3" class="form-control" placeholder="$ HH">
+                        <span asp-validation-for="HH3" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HH4">RUB HH</label>
+                        <input asp-for="HH4" class="form-control" placeholder="RUB HH">
+                        <span asp-validation-for="HH4" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    
+                    
+                    <div class="form-group form-group-float" style="width: 50%">
+                        <label asp-for="File">pdf file</label>
+                        <input accept="application/pdf" asp-for="File" class="form-control">
+                        <span class="text-danger" asp-validation-for="File"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Edit</button>
+                    <a asp-action="Index" class="btn btn-secondary">Go back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
