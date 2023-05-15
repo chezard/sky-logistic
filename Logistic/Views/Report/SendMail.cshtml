@@ -53,7 +53,7 @@
                 double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
 
                 double expense = 0;
-                foreach (ApportionmentOfCostTable item in transportDocumentTable.MyProperty)
+                foreach (ApportionmentOfCostTable item in transportDocumentTable.CostList)
                 {
                     expense += item.Amount;
                 }

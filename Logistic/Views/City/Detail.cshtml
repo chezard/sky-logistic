@@ -126,7 +126,7 @@
                             double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
 
                             double expense = 0;
-                            foreach (ApportionmentOfCostTable item in transportDocumentTable.MyProperty)
+                            foreach (ApportionmentOfCostTable item in transportDocumentTable.CostList)
                             {
                                 expense += item.Amount;
                             }
@@ -180,7 +180,7 @@
                                 </td>
                                 <td>
                                     @expense
-                                    <a asp-controller="TransportDocumentTable" asp-action="Detail" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Expense</a>
+                                    <a asp-controller="TransportDocumentTable" asp-action="DetailCost" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Expense</a>
 
                                 </td>
 

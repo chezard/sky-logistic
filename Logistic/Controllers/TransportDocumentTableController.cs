@@ -26,7 +26,7 @@ namespace Logistic.Controllers
             return View(transportDocumentTables);
         }
 
-        public IActionResult Detail(int? id)
+        public IActionResult DetailCost(int? id)
         {
             if (id == null)
                 return NotFound();
@@ -50,6 +50,32 @@ namespace Logistic.Controllers
                 return NotFound();
 
             return View(expenseVM);
+        }
+        
+        public IActionResult DetailValue(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var transportDocumentTable = _context.TransportDocumentTables.Include(x => x.TransportDocument)
+                .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
+                .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
+                .Include(x=>x.Institution).Include(x=>x.Valyuta)
+                .Include(x=>x.Personal)
+                .FirstOrDefault(x => x.Id == id);
+
+            var apportionmentOfCostTable = _context.ApportionmentOfValueTables.Where(x=>x.TransportDocumentTableId==id).Include(x => x.Valyuta).ToList();
+
+            var expenseValueVm = new ExpenseValueVM()
+            {
+                TransportDocumentTable = transportDocumentTable,
+                ApportionmentOfValueTable = apportionmentOfCostTable
+            };
+
+            if (transportDocumentTable == null)
+                return NotFound();
+
+            return View(expenseValueVm);
         }
 
         public async Task<IActionResult> Create(int? tId)

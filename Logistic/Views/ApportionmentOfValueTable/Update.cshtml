@@ -1,4 +1,4 @@
-﻿@model ApportionmentOfCostTable
+﻿@model ApportionmentOfValueTable
 @{
     ViewData["Title"] = "Update";
 }
@@ -63,10 +63,9 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary mr-2">Edit</button>
-                    <a asp-controller="TransportDocumentTable" asp-action="DetailCost" asp-route-id="@Model.TransportDocumentTableId" class="btn btn-secondary">Go back</a>
+                    <a asp-controller="TransportDocumentTable" asp-action="DetailValue" asp-route-id="@Model.TransportDocumentTableId" class="btn btn-secondary">Go back</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
-

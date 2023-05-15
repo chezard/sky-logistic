@@ -1,0 +1,202 @@
+﻿@{
+    ViewData["Title"] = "Detail";
+    ExpenseValueVM expenseVM = Model;
+}
+
+@{
+    double remainder = expenseVM.TransportDocumentTable.Salary - expenseVM.TransportDocumentTable.CommonSalary;
+
+    double expense = 0 ;
+    foreach (var item in expenseVM.ApportionmentOfValueTable)
+    {
+        expense += item.Amount;
+    }
+    double end = expenseVM.TransportDocumentTable.Salary - expense;
+}
+
+
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            @*<h2 class="mt-0 header-title">Detail</h2>*@
+            @*<a asp-action="Index" class="btn btn-primary mb-3" style="justify-content:end">
+                Go Back
+            </a>*@
+            <div class="table-responsive">
+                @*<h3 class=" mt-5 " style="color:#297358">Transport Document Table</h3>
+                <table class="table table-bordered mb-3">
+                    <thead>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <th scope="row">Transport Document Id</th>
+                            <th scope="row">Condition Of Carriage</th>
+                            <th scope="row">Status Of Shipment</th>
+                            <th scope="row">Type Of Transportation</th>
+                            <th scope="row">Direction Of Transportation</th>
+                            <th scope="row">Customer</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Id
+                            </td>
+                            <td>
+                                SL @expenseVM.TransportDocumentTable.TransportDocument.Id
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.ConditionOfCarriage.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.StatusOfShipment.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.TypeOfTransportation.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.DirectionOfTransportation.Type
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Customer
+                            </td>
+                            
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered mb-3">
+                    <thead>
+                        <tr>
+                            <th scope="row">Partnyor</th>
+                            <th scope="row">From</th>
+                            <th scope="row">To</th>
+                            <th scope="row">Valyuta</th>
+                            <th scope="row">Carry Name</th>
+                            <th scope="row">Count</th>
+                            <th scope="row">Salary</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Institution.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.From.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.To.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Valyuta.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Name
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Count
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Salary
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="table table-bordered mb-3">
+                    <thead>
+                        <tr>
+                            <th scope="row">Expense</th>
+                            <th scope="row">End</th>
+                            <th scope="row">Paid</th>
+                            <th scope="row">Remainder</th>
+                            <th scope="row">Manager</th>
+                            <th scope="row">Description</th>
+
+                        </tr>
+
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @expense
+                            </td>
+                            <td>
+                                @end
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.CommonSalary
+                            </td>
+                            <td>
+                                @remainder
+                            </td>
+                            <td>
+                                @expenseVM.TransportDocumentTable.Personal.Name
+                            </td>
+                            <td>
+                                @Html.Raw(expenseVM.TransportDocumentTable.Description)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+*@
+                <h3 class=" mt-5 " style="color:#297358">Expense</h3>
+                <a asp-controller="ApportionmentOfValueTable" asp-action="Create" asp-route-transportDocumentTableId="@expenseVM.TransportDocumentTable.Id" class="btn btn-success mb-3">Create</a>
+                <a asp-controller="TransportDocument" asp-action="DetailAll" asp-route-id="@expenseVM.TransportDocumentTable.TransportDocumentId" class="btn btn-primary mb-3">Go Back</a>
+                <table style="width:100%" class="table mb-5 table-bordered table-hover table-sm index">
+                    <thead class="thead-doc">
+                        <tr>
+                            
+                            <th>Expense</th>
+                            <th>Amount</th>
+                            <th>Valyuta</th>
+                            <th>Date</th>
+                            <th>Note</th>
+                            <th>Actions</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var apportionmentOfValueTable in expenseVM.ApportionmentOfValueTable)
+                        {
+                            <tr>
+
+                                <td>
+                                    @apportionmentOfValueTable.Expense
+                                </td>
+                                <td>
+                                    @apportionmentOfValueTable.Amount
+                                </td>
+                                <td>
+                                    @apportionmentOfValueTable.Valyuta.Name
+                                </td>
+                                <td>
+                                    @apportionmentOfValueTable.Date
+                                </td>
+                                <td>
+                                    @apportionmentOfValueTable.Note
+                                </td>
+                                <td>
+                                    <a asp-controller="ApportionmentOfValueTable" asp-action="Update" asp-route-id="@apportionmentOfValueTable.Id" class="btn btn-warning">Update</a>
+                                    <a asp-controller="ApportionmentOfValueTable" asp-action="Delete" asp-route-id="@apportionmentOfValueTable.Id" class="btn btn-danger delete">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

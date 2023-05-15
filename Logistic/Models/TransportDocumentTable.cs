@@ -37,6 +37,7 @@
         public Personal Personal { get; set; }
         public string Description { get; set; }
 
-        public List<ApportionmentOfCostTable> MyProperty { get; set; }
+        public List<ApportionmentOfCostTable> CostList { get; set; }
+        public List<ApportionmentOfValueTable> ValueList { get; set; }
     }
 }

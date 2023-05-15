@@ -62,7 +62,7 @@ namespace Logistic.Controllers
             await _context.ApportionmentOfCostTables.AddAsync(apportionmentOfCostTable);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Detail", "TransportDocumentTable", new { id = apportionmentOfCostTable.TransportDocumentTableId });
+            return RedirectToAction("DetailCost", "TransportDocumentTable", new { id = apportionmentOfCostTable.TransportDocumentTableId });
 
         }
 
@@ -111,7 +111,7 @@ namespace Logistic.Controllers
 
             _context.UpdateRange(dbApportionmentOfCostTable);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Detail", "TransportDocumentTable", new { id = transportDocumentTableId });
+            return RedirectToAction("DetailCost", "TransportDocumentTable", new { id = transportDocumentTableId });
 
         }
 
@@ -125,7 +125,7 @@ namespace Logistic.Controllers
             var ttId = apportionmentOfCostTable.TransportDocumentTableId;
             _context.ApportionmentOfCostTables.Remove(apportionmentOfCostTable);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Detail", "TransportDocumentTable", new { id = ttId });
+            return RedirectToAction("DetailCost", "TransportDocumentTable", new { id = ttId });
         }
     }
 }

@@ -26,4 +26,11 @@
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Views\ApportionmentOfValueTable\Create.cshtml" />
+    <AdditionalFiles Include="Views\ApportionmentOfValueTable\Detail.cshtml" />
+    <AdditionalFiles Include="Views\ApportionmentOfValueTable\Index.cshtml" />
+    <AdditionalFiles Include="Views\ApportionmentOfValueTable\Update.cshtml" />
+  </ItemGroup>
+
 </Project>
