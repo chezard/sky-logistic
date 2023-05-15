@@ -32,7 +32,8 @@ namespace Logistic.Controllers
             if (id == null)
                 return NotFound();
 
-            var institution = _context.Institutions.Include(x => x.Bank).Include(x => x.EnterpriseType).FirstOrDefault(x => x.Id == id);
+            var institution = _context.Institutions.Include(x => x.Bank).Include(x => x.EnterpriseType)
+                .FirstOrDefault(x => x.Id == id);
 
 
             if (institution == null)
@@ -47,7 +48,9 @@ namespace Logistic.Controllers
             if (id == null)
                 return NotFound();
 
-            var invoice = _context.Invoices.Include(x => x.InternalCompany).Include(x => x.Ekspeditor).ThenInclude(x => x.Bank).Include(x => x.Customer).ThenInclude(x => x.Bank).FirstOrDefault(x => x.Id == id);
+            var invoice = _context.Invoices.Include(x => x.InternalCompany).Include(x => x.Ekspeditor)
+                .ThenInclude(x => x.Bank).Include(x => x.Customer).ThenInclude(x => x.Bank)
+                .FirstOrDefault(x => x.Id == id);
 
             var invoiceTables = _context.InvoiceTables.Where(x => x.InvoiceId == id).Include(x => x.Invoice).ToList();
 
@@ -63,6 +66,7 @@ namespace Logistic.Controllers
 
             return View(invoiceVM);
         }
+
         public async Task<IActionResult> Create()
         {
             var enterpriseTypes = await _context.EnterpriseTypes.ToListAsync();
@@ -71,6 +75,7 @@ namespace Logistic.Controllers
             ViewBag.Banks = banks;
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Institution institution, int? enterpriseTypeId, int? bankId)
@@ -119,7 +124,6 @@ namespace Logistic.Controllers
             await _context.Institutions.AddAsync(institution);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-
         }
 
 
@@ -139,6 +143,7 @@ namespace Logistic.Controllers
                 return NotFound();
             return View(institution);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, Institution institution, int? enterpriseTypeId, int? bankId)
@@ -181,7 +186,6 @@ namespace Logistic.Controllers
                 using (FileStream stream = new FileStream(iconSPath, FileMode.Create))
                 {
                     institution.File.CopyTo(stream);
-
                 }
 
                 dbInstitution.FileName = fileName;
@@ -207,7 +211,6 @@ namespace Logistic.Controllers
             _context.UpdateRange(dbInstitution);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -231,6 +234,14 @@ namespace Logistic.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateList()
+        {
+            var list = _context.Institutions.Where(x => x.EnterpriseTypeId == 1).ToList();
+
+            return Json(list);
         }
     }
 }

@@ -14,8 +14,12 @@
                         <div class="col-6">
 
                             <div class="form-group form-group-float w-lg-50">
-                                <label>Institution</label>
-                                <select class="custom-select " name="institutionId">
+                                <label>
+                                    Company Name
+                                    <a class="btn btn-sm btn-success" href="/institution/create" target="_blank">Əlavə et</a>
+                                    <button type="button" id="institution-list-refresh" class="btn btn-sm btn-primary">Yenilə</button>
+                                </label>
+                                <select id="institution-list" class="custom-select " name="institutionId">
                                     @foreach (Institution institution in ViewBag.Institutions)
                                     {
                                         <option value="@institution.Id">@institution.Name</option>
@@ -112,7 +116,6 @@
                     </div>
 
 
-
                     <button type="submit" class="btn btn-primary mr-2">Create</button>
                     <a asp-action="Index" class="btn btn-secondary">Go back</a>
                 </form>
@@ -127,7 +130,7 @@
 
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/select2.js"></script>
-    
+
     <script>
 
 
@@ -202,10 +205,27 @@
                 }
             })
         })
+               $(document).ready(function () {
+                    $('#institution-list-refresh').click(function () {
+                        $.ajax({
+                            url: '/Institution/UpdateList',
+                            type: 'POST',
+                            success: function (response) {
+                            const dropdown = $('#institution-list');
+        
+                                dropdown.empty();
+                                for (let i = 0; i < response.length; i++) {
+                                    dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                }
+                            }
+                        });
+                    });
+                });
+        
     </script>
 
 
-    @*<script>
+@*<script>
         let countryId = "";
         $("#countrySearch").keyup(function () {
             $("#cities").html('')

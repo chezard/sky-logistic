@@ -117,5 +117,13 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        
+        [HttpPost]
+        public IActionResult UpdateList()
+        {
+            var list = _context.BankGroups.ToList();
+
+            return Json(list);
+        }
     }
 }

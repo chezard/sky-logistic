@@ -9,10 +9,13 @@
             <div class="card-body">
                 <h4 class="card-title">Create</h4>
                 <form class="forms-sample" method="post" enctype="multipart/form-data">
-                    
+
                     <div class="form-group form-group-float w-lg-50">
-                        <label>Bank Group</label>
-                        <select class="custom-select " name="bankGroupId" class="selectpicker">
+                        <label>
+                            Bank Group <a class="btn btn-sm btn-success" href="/bankgroup/create" target="_blank">Əlavə et</a>
+                            <button type="button" id="bank-group-list-refresh" class="btn btn-sm btn-primary">Yenilə</button>
+                        </label>
+                        <select id="bank-group-list" class="custom-select " name="bankGroupId" class="selectpicker">
                             @foreach (BankGroup bankGroup in ViewBag.BankGroups)
                             {
                                 <option value="@bankGroup.Id">@bankGroup.Name</option>
@@ -59,7 +62,7 @@
                         <input asp-for="Phone" class="form-control" placeholder="Phone">
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
-                    
+
                     <div class="form-group">
                         <label asp-for="Address">Address</label>
                         <input asp-for="Address" class="form-control" placeholder="Address">
@@ -70,7 +73,7 @@
                         <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
-                    
+
                     <div class="form-group form-group-float" style="width: 50%">
                         <label asp-for="File">pdf file</label>
                         <input accept="application/pdf" asp-for="File" class="form-control">
@@ -85,3 +88,22 @@
     </div>
 </div>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#bank-group-list-refresh').click(function () {
+                $.ajax({
+                    url: '/BankGroup/UpdateList',
+                    type: 'POST',
+                    success: function (response) {
+                    const dropdown = $('#bank-group-list');
+                        dropdown.empty();
+                        for (let i = 0; i < response.length; i++) {
+                            dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

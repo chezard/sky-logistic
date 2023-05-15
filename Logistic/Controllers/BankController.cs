@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Security;
 
 namespace Logistic.Controllers
 {
@@ -193,5 +194,15 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        
+        
+        [HttpPost]
+        public IActionResult UpdateList()
+        {
+            var list = _context.Banks.ToList();
+
+            return Json(list);
+        }
+        
     }
 }

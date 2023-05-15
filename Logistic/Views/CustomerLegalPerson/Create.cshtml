@@ -43,8 +43,8 @@
                         <input asp-for="PhysicalAddress" class="form-control" placeholder="Physical Address">
                         <span asp-validation-for="PhysicalAddress" class="text-danger"></span>
                     </div>
-                    
-                    
+
+
                     <div class="form-group">
                         <label asp-for="Phone">Phone</label>
                         <input asp-for="Phone" class="form-control" placeholder="Phone">
@@ -56,11 +56,15 @@
                         <span asp-validation-for="Mail" class="text-danger"></span>
                     </div>
                     <div class="form-group form-group-float w-lg-50">
-                        <label>Bank</label>
-                        <select class="custom-select " name="bankId">
+                        <label>
+                            Bank
+                            <a class="btn btn-sm btn-success" href="/bank/create" target="_blank">Əlavə et</a>
+                            <button type="button" id="bank-list-refresh" class="btn btn-sm btn-primary">Yenilə</button>
+                        </label>
+                        <select id="bank-list" class="custom-select" name="bankId" >
                             @foreach (Bank bank in ViewBag.Banks)
                             {
-                                <option value="@bank.Id">Bank-@bank.Name;  Swift-@bank.Swift;  M/H-@bank.MH</option>
+                                <option value="@bank.Id">Bank-@bank.Name; Swift-@bank.Swift; M/H-@bank.MH</option>
                             }
                         </select>
                     </div>
@@ -87,7 +91,7 @@
                     </div>
 
 
-                   @* <div class="form-group">
+                    @* <div class="form-group">
                         <label asp-for="Description">Note</label>
                         <input asp-for="Description" class="form-control" placeholder="Note">
                         <span asp-validation-for="Description" class="text-danger"></span>
@@ -117,3 +121,25 @@
     </div>
 </div>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#bank-list-refresh').click(function () {
+                $.ajax({
+                    url: '/Bank/UpdateList',
+                    type: 'POST',
+                    success: function (response) {
+                    const dropdown = $('#bank-list');
+
+                        dropdown.empty();
+                        for (let i = 0; i < response.length; i++) {
+                            dropdown.append('<option value="' + response[i].id + '">' + 'Bank-' + response[i].name + '; Swift-' + response[i].swift 
+                             + '; M/H-' +  response[i].mh+'</option>');
+                          
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
