@@ -39,5 +39,6 @@
 
         public List<ApportionmentOfCostTable> CostList { get; set; }
         public List<ApportionmentOfValueTable> ValueList { get; set; }
+        public List<ApportionmentOfPaymentTable> PaymentList { get; set; }
     }
 }

@@ -23,12 +23,18 @@ namespace Logistic.Controllers
         public IActionResult Index()
         {
             var transportDocumentTable = _context.TransportDocumentTables.Include(x => x.TransportDocument)
-                                           .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
-                                           .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
-                                           .Include(x => x.Institution).Include(x => x.Valyuta)
-                                           .Include(x => x.Personal).Include(x=>x.CostList)
-                                           .OrderByDescending(x=>x.Id)
-                                           .ToList();
+                .Include(x => x.ConditionOfCarriage)
+                .Include(y => y.StatusOfShipment)
+                .Include(y => y.TypeOfTransportation)
+                .Include(y => y.DirectionOfTransportation)
+                .Include(x => x.Institution)
+                .Include(x => x.Valyuta)
+                .Include(x => x.Personal)
+                .Include(x => x.CostList)
+                .Include(x => x.ValueList)
+                .Include(x => x.PaymentList)
+                .OrderByDescending(x => x.Id)
+                .ToList();
 
             return View(transportDocumentTable);
         }
@@ -36,11 +42,11 @@ namespace Logistic.Controllers
         public IActionResult SendMail()
         {
             var transportDocumentTable = _context.TransportDocumentTables.Include(x => x.TransportDocument)
-                                           .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
-                                           .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
-                                           .Include(x => x.Institution).Include(x => x.Valyuta)
-                                           .Include(x => x.Personal).Include(x => x.CostList)
-                                           .ToList();
+                .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
+                .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
+                .Include(x => x.Institution).Include(x => x.Valyuta)
+                .Include(x => x.Personal).Include(x => x.CostList)
+                .ToList();
 
             return View(transportDocumentTable);
         }
@@ -50,10 +56,7 @@ namespace Logistic.Controllers
         {
             try
             {
-                Thread email = new(delegate ()
-                {
-                    Sendmail.SendMessage(to, subject, body);
-                });
+                Thread email = new(delegate() { Sendmail.SendMessage(to, subject, body); });
                 email.IsBackground = true;
                 email.Start();
                 TempData["alert"] = "Email Successfully Sent";
@@ -62,10 +65,9 @@ namespace Logistic.Controllers
             {
                 TempData["alert"] = "Problem Sending mail. Please check the configuration";
             }
-           
+
 
             return RedirectToAction("Index");
         }
-        
     }
 }

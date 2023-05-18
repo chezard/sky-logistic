@@ -11,10 +11,13 @@
                 <form class="forms-sample" method="post" enctype="multipart/form-data">
 
                     <div class="form-group form-group-float w-lg-50">
-                        <label>
-                            Bank Group <a class="btn btn-sm btn-success" href="/bankgroup/create" target="_blank">Əlavə et</a>
-                            <button type="button" id="bank-group-list-refresh" class="btn btn-sm btn-primary">Yenilə</button>
-                        </label>
+                        <div class="d-flex justify-content-between">
+                            <label>Bank Group</label>
+                            <div class="mb-1">
+                                <a class="btn btn-sm btn-success" href="/bankgroup/create" target="_blank">+</a>
+                                <button type="button" id="bank-group-list-refresh" class="btn btn-sm btn-primary">o</button>
+                            </div>
+                        </div>
                         <select id="bank-group-list" class="custom-select " name="bankGroupId" class="selectpicker">
                             @foreach (BankGroup bankGroup in ViewBag.BankGroups)
                             {

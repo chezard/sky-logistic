@@ -50,6 +50,7 @@ namespace Logistic.DAL
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<ApportionmentOfValueTable> ApportionmentOfValueTables { get; set; }
+        public DbSet<ApportionmentOfPaymentTable> ApportionmentOfPaymentTables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

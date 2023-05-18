@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="Views\ApportionmentOfPaymentTable\Create.cshtml" />
+    <AdditionalFiles Include="Views\ApportionmentOfPaymentTable\Detail.cshtml" />
+    <AdditionalFiles Include="Views\ApportionmentOfPaymentTable\Index.cshtml" />
+    <AdditionalFiles Include="Views\ApportionmentOfPaymentTable\Update.cshtml" />
     <AdditionalFiles Include="Views\ApportionmentOfValueTable\Create.cshtml" />
     <AdditionalFiles Include="Views\ApportionmentOfValueTable\Detail.cshtml" />
     <AdditionalFiles Include="Views\ApportionmentOfValueTable\Index.cshtml" />

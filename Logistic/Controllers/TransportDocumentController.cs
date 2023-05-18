@@ -57,7 +57,7 @@ namespace Logistic.Controllers
                 .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
                 .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
                 .Include(x => x.Institution).Include(x => x.Valyuta)
-                .Include(x => x.Personal).Include(x => x.CostList).Include(x=>x.ValueList)
+                .Include(x => x.Personal).Include(x => x.CostList).Include(x=>x.ValueList).Include(x=>x.PaymentList)
                 .ToList();
 
             if (transportDocument == null)

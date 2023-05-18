@@ -46,7 +46,7 @@
             @transportDocumentVM.TransportDocument.LastAddress
         </td>
         <td>
-            @transportDocumentVM.TransportDocument.Date.Date
+            @transportDocumentVM.TransportDocument.Date.ToShortDateString()
         </td>
         <td>
             @transportDocumentVM.TransportDocument.PaymentType.Name
@@ -133,8 +133,14 @@
         {
             expense += item.Amount;
         }
+
+        double expensePayment = 0;
+        foreach (var item in transportDocumentTable.PaymentList)
+        {
+            expensePayment += item.Amount;
+        }
         double end = expenseValue - expense;
-        double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
+        double debt = expenseValue - expensePayment;
         <tr>
 
             @*<td>
@@ -198,16 +204,17 @@
             </td>
             <td>
                 @expenseValue
-                <a asp-controller="TransportDocumentTable" asp-action="DetailValue" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Expense</a>
+                <a asp-controller="TransportDocumentTable" asp-action="DetailValue" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Sell</a>
             </td>
             <td>
                 @end
             </td>
             <td>
-                @transportDocumentTable.CommonSalary
+                @expensePayment
+                <a asp-controller="TransportDocumentTable" asp-action="DetailPayment" asp-route-id="@transportDocumentTable.Id" class="btn btn-warning">Payment</a>
             </td>
             <td>
-                @remainder
+                @debt
             </td>
 
             <td>

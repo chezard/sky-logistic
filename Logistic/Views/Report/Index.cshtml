@@ -15,20 +15,23 @@
 
                 <table data-ordering="false" id="myTable2" style="width:100%" class="table mb-5 table-bordered table-hover table-sm ">
                     <thead class="thead-doc">
-                        <tr>
-                            @*<th>№</th>*@
-                            <th>SL NO:</th>
-                            <th>Type </th>
-                            <th>Inc</th>
-                            <th>Manager</th>
-                            <th>Date </th>
-                            <th>Status </th>
-                            <th>Customer</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>Commodity</th>
-                            <th>Agent</th>
-                            @*<th>Direction</th>
+                    <tr>
+                        @*<th>№</th>*@
+                        <th>SL NO:</th>
+                        <th>Type </th>
+                        <th>Inc</th>
+                        <th>Manager</th>
+                        <th>Date </th>
+                        <th>Status </th>
+                        <th>Customer</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Commodity</th>
+                        <th>Agent</th>
+                        <th>Expense</th>
+                        <th>Sell</th>
+                        <th>Payment</th>
+                        @*<th>Direction</th>
                             <th>Curr.</th>
                             <th>Qty</th>
                             <th>Sale</th>
@@ -37,63 +40,70 @@
                             <th>Pre-Payment</th>
                             <th>Debt</th>
                             <th>Description</th>*@
-                        </tr>
+                    </tr>
                     </thead>
                     <tbody id="report-tbody">
-                        @foreach (TransportDocumentTable transportDocumentTable in transportDocumentTables)
+                    @foreach (TransportDocumentTable transportDocumentTable in transportDocumentTables)
+                    {
+                        double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
+
+                        double expense = 0;
+                        foreach (ApportionmentOfCostTable item in transportDocumentTable.CostList)
                         {
-                            double remainder = transportDocumentTable.Salary - transportDocumentTable.CommonSalary;
+                            expense += item.Amount;
+                        }
+                        double end = transportDocumentTable.Salary - expense;
 
-                            double expense = 0;
-                            foreach (ApportionmentOfCostTable item in transportDocumentTable.CostList)
-                            {
-                                expense += item.Amount;
-                            }
-                            double end = transportDocumentTable.Salary - expense;
-
-                            <tr>
-                                @*<td>
+                        <tr>
+                            @*<td>
                             @transportDocumentTable.Id
                             </td>*@
-                                <td>
-                                    SL @transportDocumentTable.TransportDocument.Id
-                                </td>
-                                <td>
-                                    @transportDocumentTable.ConditionOfCarriage.Name
-                                </td>
-                                <td>
-                                    @transportDocumentTable.TypeOfTransportation.Name
-                                </td>
-                                <td>
-                                    @transportDocumentTable.Personal.Name
-                                </td>
-                                
-                                <td>
-                                    @transportDocumentTable.Date
-                                </td>
-                                <td>
-                                    @transportDocumentTable.StatusOfShipment.Name
-                                </td>
-                                <td>
-                                    @transportDocumentTable.Customer
-                                </td>
-                                <td>
-                                    @transportDocumentTable.AddressFrom
-                                </td>
-                                <td>
-                                    @transportDocumentTable.AddressTo
-                                </td>
-                               <td>
-                                    @transportDocumentTable.Name
-                                </td>
-                                <td>
-                                    @transportDocumentTable.Institution.Name
-                                </td>
+                            <td>
+                                SL @transportDocumentTable.TransportDocument.Id
+                            </td>
+                            <td>
+                                @transportDocumentTable.ConditionOfCarriage.Name
+                            </td>
+                            <td>
+                                @transportDocumentTable.TypeOfTransportation.Name
+                            </td>
+                            <td>
+                                @transportDocumentTable.Personal.Name
+                            </td>
 
-                                
-                               
-                            </tr>
-                        }
+                            <td>
+                                @transportDocumentTable.Date
+                            </td>
+                            <td>
+                                @transportDocumentTable.StatusOfShipment.Name
+                            </td>
+                            <td>
+                                @transportDocumentTable.Customer
+                            </td>
+                            <td>
+                                @transportDocumentTable.AddressFrom
+                            </td>
+                            <td>
+                                @transportDocumentTable.AddressTo
+                            </td>
+                            <td>
+                                @transportDocumentTable.Name
+                            </td>
+                            <td>
+                                @transportDocumentTable.Institution.Name
+                            </td>
+                            <td>
+                                @transportDocumentTable.CostList.Sum(x => x.Amount)
+                            </td>
+                            <td>
+                                @transportDocumentTable.ValueList.Sum(x => x.Amount)
+                            </td>
+                            <td>
+                                @transportDocumentTable.PaymentList.Sum(x => x.Amount)
+                            </td>
+
+                        </tr>
+                    }
                     </tbody>
                 </table>
 

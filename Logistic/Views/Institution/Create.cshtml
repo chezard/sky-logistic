@@ -56,10 +56,13 @@
                         <span asp-validation-for="Mail" class="text-danger"></span>
                     </div>
                     <div class="form-group form-group-float w-lg-50">
-                        <label> Bank
-                            <a class="btn btn-sm btn-success" href="/bank/create" target="_blank">Əlavə et</a>
-                            <button type="button" id="bank-list-refresh" class="btn btn-sm btn-primary">Yenilə</button>
-                        </label>
+                        <div class="d-flex justify-content-between">
+                            <label> Bank</label>
+                            <div class="mb-1">
+                                <a class="btn btn-sm btn-success" href="/bank/create" target="_blank">+</a>
+                                <button type="button" id="bank-list-refresh" class="btn btn-sm btn-primary">o</button>
+                            </div>
+                        </div>
                         <select id="bank-list" class="custom-select " name="bankId">
                             @foreach (Bank bank in ViewBag.Banks)
                             {

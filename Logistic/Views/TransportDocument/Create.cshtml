@@ -14,11 +14,13 @@
                         <div class="col-6">
 
                             <div class="form-group form-group-float w-lg-50">
-                                <label>
-                                    Company Name
-                                    <a class="btn btn-sm btn-success" href="/institution/create" target="_blank">Əlavə et</a>
-                                    <button type="button" id="institution-list-refresh" class="btn btn-sm btn-primary">Yenilə</button>
-                                </label>
+                                <div class="d-flex justify-content-between">
+                                    <label>Company Name</label>
+                                    <div class="mb-1">
+                                        <a class="btn btn-sm btn-success" href="/institution/create" target="_blank">+</a>
+                                        <button type="button" id="institution-list-refresh" class="btn btn-sm btn-primary">o</button>
+                                    </div>
+                                </div>
                                 <select id="institution-list" class="custom-select " name="institutionId">
                                     @foreach (Institution institution in ViewBag.Institutions)
                                     {

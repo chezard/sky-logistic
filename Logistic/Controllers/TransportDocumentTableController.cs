@@ -77,6 +77,32 @@ namespace Logistic.Controllers
 
             return View(expenseValueVm);
         }
+        
+        public IActionResult DetailPayment(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var transportDocumentTable = _context.TransportDocumentTables.Include(x => x.TransportDocument)
+                .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
+                .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
+                .Include(x=>x.Institution).Include(x=>x.Valyuta)
+                .Include(x=>x.Personal)
+                .FirstOrDefault(x => x.Id == id);
+
+            var apportionmentOfPaymentTables = _context.ApportionmentOfPaymentTables.Where(x=>x.TransportDocumentTableId==id).Include(x => x.Valyuta).ToList();
+
+            var expenseValueVm = new ExpensePaymentVM()
+            {
+                TransportDocumentTable = transportDocumentTable,
+                ApportionmentOfPaymentTables = apportionmentOfPaymentTables
+            };
+
+            if (transportDocumentTable == null)
+                return NotFound();
+
+            return View(expenseValueVm);
+        }
 
         public async Task<IActionResult> Create(int? tId)
         {

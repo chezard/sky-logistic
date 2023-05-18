@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Detail";
-    ApportionmentOfValueTable apportionmentOfValueTable = Model;
+    ApportionmentOfPaymentTable apportionmentOfPaymentTable = Model;
 }
 
 <div class="col-lg-12">
@@ -16,37 +16,31 @@
                         <tr>
                             <th scope="row">Transport Document and Transport Document Table</th>
                             <td>
-                                SL @apportionmentOfValueTable.TransportDocumentTable.TransportDocumentId - @apportionmentOfValueTable.TransportDocumentTable.Id
+                                SL @apportionmentOfPaymentTable.TransportDocumentTable.TransportDocumentId - @apportionmentOfPaymentTable.TransportDocumentTable.Id
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">Sell</th>
-                            <td>
-                                @apportionmentOfValueTable.Expense
-                            </td>
-                        </tr>
-                        <tr>
+                    <tr>
                             <th scope="row">Amount</th>
                             <td>
-                                @apportionmentOfValueTable.Amount
+                                @apportionmentOfPaymentTable.Amount
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Valyuta</th>
                             <td>
-                                @apportionmentOfValueTable.Valyuta.Name
+                                @apportionmentOfPaymentTable.Valyuta.Name
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Date</th>
                             <td>
-                                @apportionmentOfValueTable.Date.ToShortDateString()
+                                @apportionmentOfPaymentTable.Date.ToShortDateString()
                             </td>
                         </tr>
                         <tr>
                             <th scope="row">Note</th>
                             <td>
-                                @apportionmentOfValueTable.Note
+                                @apportionmentOfPaymentTable.Note
                             </td>
                         </tr>
                         

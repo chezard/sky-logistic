@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Index";
-    List<ApportionmentOfCostTable> apportionmentOfCostTables = Model;
+    List<ApportionmentOfPaymentTable> apportionmentOfPaymentTables = Model;
 }
 
 <div class="row">
@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">
-                    Xərclərin bölünməsi
+                    Ödənişlər
                 </h4>
                 <a asp-action="Create" class="btn btn-primary">Create</a>
                 <div class="table-responsive">
@@ -21,19 +21,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (ApportionmentOfCostTable apportionmentOfCostTable in apportionmentOfCostTables)
+                            @foreach (ApportionmentOfPaymentTable apportionmentOfPaymentTable in apportionmentOfPaymentTables)
                             {
                                 <tr>
                                     <td>
-                                        SL @apportionmentOfCostTable.TransportDocumentTable.TransportDocumentId - @apportionmentOfCostTable.TransportDocumentTable.Id
+                                        SL @apportionmentOfPaymentTable.TransportDocumentTable.TransportDocumentId - @apportionmentOfPaymentTable.TransportDocumentTable.Id
                                     </td>
                                     <td>
-                                        @apportionmentOfCostTable.Expense
+                                        @apportionmentOfPaymentTable.Expense
                                     </td>
                                     <td>
-                                        <a style="padding:10px" asp-action="Detail" asp-route-id="@apportionmentOfCostTable.Id" class="btn btn-success">Detail</a>
-                                        <a style="padding:10px" asp-action="Update" asp-route-id="@apportionmentOfCostTable.Id" class="btn btn-warning">Edit</a>
-                                        <a style="padding:10px" asp-action="Delete" asp-route-id="@apportionmentOfCostTable.Id" class="btn btn-danger delete">Delete</a>
+                                        <a style="padding:10px" asp-action="Detail" asp-route-id="@apportionmentOfPaymentTable.Id" class="btn btn-success">Detail</a>
+                                        <a style="padding:10px" asp-action="Update" asp-route-id="@apportionmentOfPaymentTable.Id" class="btn btn-warning">Edit</a>
+                                        <a style="padding:10px" asp-action="Delete" asp-route-id="@apportionmentOfPaymentTable.Id" class="btn btn-danger delete">Delete</a>
                                     </td>
 
                                 </tr>

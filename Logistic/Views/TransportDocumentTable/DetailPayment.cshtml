@@ -1,13 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Detail";
-    ExpenseValueVM expenseVM = Model;
+    ExpensePaymentVM expenseVM = Model;
 }
 
 @{
     double remainder = expenseVM.TransportDocumentTable.Salary - expenseVM.TransportDocumentTable.CommonSalary;
 
     double expense = 0 ;
-    foreach (var item in expenseVM.ApportionmentOfValueTable)
+    foreach (var item in expenseVM.ApportionmentOfPaymentTables)
     {
         expense += item.Amount;
     }
@@ -149,14 +149,12 @@
                     </tbody>
                 </table>
 *@
-                <h3 class=" mt-5 " style="color:#297358">Sell</h3>
-                <a asp-controller="ApportionmentOfValueTable" asp-action="Create" asp-route-transportDocumentTableId="@expenseVM.TransportDocumentTable.Id" class="btn btn-success mb-3">Create</a>
+                <h3 class=" mt-5 " style="color:#297358">Payment</h3>
+                <a asp-controller="ApportionmentOfPaymentTable" asp-action="Create" asp-route-transportDocumentTableId="@expenseVM.TransportDocumentTable.Id" class="btn btn-success mb-3">Create</a>
                 <a asp-controller="TransportDocument" asp-action="DetailAll" asp-route-id="@expenseVM.TransportDocumentTable.TransportDocumentId" class="btn btn-primary mb-3">Go Back</a>
                 <table style="width:100%" class="table mb-5 table-bordered table-hover table-sm index">
                     <thead class="thead-doc">
                         <tr>
-                            
-                            <th>Sell</th>
                             <th>Amount</th>
                             <th>Valyuta</th>
                             <th>Date</th>
@@ -165,28 +163,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var apportionmentOfValueTable in expenseVM.ApportionmentOfValueTable)
+                        @foreach (var apportionmentOfPaymentTable in expenseVM.ApportionmentOfPaymentTables)
                         {
                             <tr>
-
+                                
                                 <td>
-                                    @apportionmentOfValueTable.Expense
+                                    @apportionmentOfPaymentTable.Amount
                                 </td>
                                 <td>
-                                    @apportionmentOfValueTable.Amount
+                                    @apportionmentOfPaymentTable.Valyuta.Name
                                 </td>
                                 <td>
-                                    @apportionmentOfValueTable.Valyuta.Name
+                                    @apportionmentOfPaymentTable.Date.ToShortDateString()
                                 </td>
                                 <td>
-                                    @apportionmentOfValueTable.Date
+                                    @apportionmentOfPaymentTable.Note
                                 </td>
                                 <td>
-                                    @apportionmentOfValueTable.Note
-                                </td>
-                                <td>
-                                    <a asp-controller="ApportionmentOfValueTable" asp-action="Update" asp-route-id="@apportionmentOfValueTable.Id" class="btn btn-warning">Update</a>
-                                    <a asp-controller="ApportionmentOfValueTable" asp-action="Delete" asp-route-id="@apportionmentOfValueTable.Id" class="btn btn-danger delete">Delete</a>
+                                    <a asp-controller="ApportionmentOfPaymentTable" asp-action="Update" asp-route-id="@apportionmentOfPaymentTable.Id" class="btn btn-warning">Update</a>
+                                    <a asp-controller="ApportionmentOfPaymentTable" asp-action="Delete" asp-route-id="@apportionmentOfPaymentTable.Id" class="btn btn-danger delete">Delete</a>
                                 </td>
                             </tr>
                         }
