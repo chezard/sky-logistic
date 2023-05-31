@@ -18,7 +18,7 @@
                                     <label>Company Name</label>
                                     <div class="mb-1">
                                         <a class="btn btn-sm btn-success" href="/institution/create" target="_blank">+</a>
-                                        <button type="button" id="institution-list-refresh" class="btn btn-sm btn-primary">o</button>
+                                        <button type="button" id="institution-list-refresh" class="btn btn-sm btn-primary">↻</button>
                                     </div>
                                 </div>
                                 <select id="institution-list" class="custom-select " name="institutionId">
@@ -210,7 +210,7 @@
                $(document).ready(function () {
                     $('#institution-list-refresh').click(function () {
                         $.ajax({
-                            url: '/Institution/UpdateList',
+                            url: '/Institution/UpdateListEnterpriseTypeId1',
                             type: 'POST',
                             success: function (response) {
                             const dropdown = $('#institution-list');

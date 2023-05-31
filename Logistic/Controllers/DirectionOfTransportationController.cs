@@ -109,5 +109,11 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult UpdateList()
+        {
+            return Json(_context.DirectionOfTransportations.ToList());
+        }
     }
 }

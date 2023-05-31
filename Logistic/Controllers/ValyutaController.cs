@@ -20,9 +20,10 @@ namespace Logistic.Controllers
 
         public IActionResult Index()
         {
-            var valyutas=_context.Valyutas.ToList();
+            var valyutas = _context.Valyutas.ToList();
             return View(valyutas);
         }
+
         public IActionResult Detail(int? id)
         {
             if (id == null)
@@ -35,11 +36,12 @@ namespace Logistic.Controllers
 
             return View(valyuta);
         }
+
         public IActionResult Create()
         {
-
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Valyuta valyuta)
@@ -51,7 +53,6 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
-
         }
 
         public IActionResult Update(int? id)
@@ -62,11 +63,11 @@ namespace Logistic.Controllers
             var valyuta = _context.Valyutas.FirstOrDefault(x => x.Id == id);
             return View(valyuta);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, Valyuta valyuta)
         {
-
             //if (!ModelState.IsValid)
             //    return View();
 
@@ -81,7 +82,6 @@ namespace Logistic.Controllers
 
             if (dbValyuta == null)
                 return NotFound();
-
 
 
             dbValyuta.Name = valyuta.Name;
@@ -107,6 +107,10 @@ namespace Logistic.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [HttpPost]
+        public ActionResult UpdateList()
+        {
+            return Json(_context.Valyutas.ToList());
+        }
     }
 }

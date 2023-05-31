@@ -20,7 +20,7 @@ namespace Logistic.Controllers
 
         public IActionResult Index()
         {
-            var typeOfTransportations=_context.TypeOfTransportations.ToList();
+            var typeOfTransportations = _context.TypeOfTransportations.ToList();
             return View(typeOfTransportations);
         }
 
@@ -36,11 +36,12 @@ namespace Logistic.Controllers
 
             return View(typeOfTransportation);
         }
+
         public IActionResult Create()
         {
-
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TypeOfTransportation typeOfTransportation)
@@ -52,7 +53,6 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
-
         }
 
         public IActionResult Update(int? id)
@@ -63,11 +63,11 @@ namespace Logistic.Controllers
             var typeOfTransportation = _context.TypeOfTransportations.FirstOrDefault(x => x.Id == id);
             return View(typeOfTransportation);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, TypeOfTransportation typeOfTransportation)
         {
-
             if (!ModelState.IsValid)
             {
                 return View();
@@ -84,7 +84,6 @@ namespace Logistic.Controllers
 
             if (dbTypeOfTransportations == null)
                 return NotFound();
-
 
 
             dbTypeOfTransportations.Name = typeOfTransportation.Name;
@@ -109,6 +108,12 @@ namespace Logistic.Controllers
             _context.TypeOfTransportations.Remove(typeOfTransportation);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateList()
+        {
+            return Json(_context.TypeOfTransportations.ToList());
         }
     }
 }

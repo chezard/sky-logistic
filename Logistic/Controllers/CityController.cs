@@ -53,7 +53,6 @@ namespace Logistic.Controllers
             await _context.Cities.AddAsync(city);
             await _context.SaveChangesAsync();
             return Redirect("/Country/Detail/" + countryId);
-
         }
 
 
@@ -103,6 +102,12 @@ namespace Logistic.Controllers
             _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
             return Redirect("/Country/Detail/" + city.CountryId);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateList(int countryId)
+        {
+            return Json(_context.Cities.Where(x => x.CountryId == countryId).ToList());
         }
     }
 }

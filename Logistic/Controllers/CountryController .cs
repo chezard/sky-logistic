@@ -50,11 +50,9 @@ namespace Logistic.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Country country)
         {
-
             await _context.Countries.AddAsync(country);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-
         }
 
 
@@ -100,6 +98,12 @@ namespace Logistic.Controllers
             _context.Countries.Remove(country);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateList()
+        {
+            return Json(_context.Countries.ToList());
         }
     }
 }

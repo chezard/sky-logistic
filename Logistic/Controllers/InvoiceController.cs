@@ -16,6 +16,7 @@ namespace Logistic.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
+
         public InvoiceController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
@@ -33,12 +34,9 @@ namespace Logistic.Controllers
             if (id == null)
                 return NotFound();
 
-            var invoice = _context.Invoices.
-                Include(x => x.InternalCompany).
-                Include(x => x.Ekspeditor).
-                ThenInclude(x => x.Bank).
-                Include(x=>x.CorrespondentBankCustomer).
-                Include(x=>x.CorrespondentBankExpeditor)
+            var invoice = _context.Invoices.Include(x => x.InternalCompany).Include(x => x.Ekspeditor)
+                .ThenInclude(x => x.Bank).Include(x => x.CorrespondentBankCustomer)
+                .Include(x => x.CorrespondentBankExpeditor)
                 .Include(x => x.Customer).ThenInclude(x => x.Bank).FirstOrDefault(x => x.Id == id);
 
             var invoiceTables = _context.InvoiceTables.Where(x => x.InvoiceId == id).Include(x => x.Invoice).ToList();
@@ -64,11 +62,10 @@ namespace Logistic.Controllers
             var invoice = _context.Invoices
                 .Include(x => x.InternalCompany)
                 .Include(x => x.Ekspeditor)
-                    .ThenInclude(x => x.Bank).
-                Include(x => x.CorrespondentBankCustomer).
-                Include(x => x.CorrespondentBankExpeditor)
+                .ThenInclude(x => x.Bank).Include(x => x.CorrespondentBankCustomer)
+                .Include(x => x.CorrespondentBankExpeditor)
                 .Include(x => x.Customer)
-                    .ThenInclude(x => x.Bank)
+                .ThenInclude(x => x.Bank)
                 .FirstOrDefault(x => x.Id == id);
 
             var invoiceTables = _context.InvoiceTables.Where(x => x.InvoiceId == id).Include(x => x.Invoice).ToList();
@@ -89,7 +86,9 @@ namespace Logistic.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var institutions = await _context.Institutions.ToListAsync();
+            var institutions = await _context.Institutions
+                .Where(x => x.EnterpriseTypeId == 1)
+                .ToListAsync();
             ViewBag.Institutions = institutions;
             var customerLegalPeople = await _context.CustomerLegalPeople.ToListAsync();
             ViewBag.CustomerLegalPeople = customerLegalPeople;
@@ -100,8 +99,10 @@ namespace Logistic.Controllers
 
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Create(Invoice invoice, int? internalCompanyId, int? ekspeditorId, int? customerId, int? transportId,int? correspondetnBanksCustomer,int? correspondetnBanksExpeditor)
+        public async Task<IActionResult> Create(Invoice invoice, int? internalCompanyId, int? ekspeditorId,
+            int? customerId, int? transportId, int? correspondetnBanksCustomer, int? correspondetnBanksExpeditor)
         {
             var institutions = await _context.Institutions.ToListAsync();
             ViewBag.Institutions = institutions;
@@ -120,11 +121,13 @@ namespace Logistic.Controllers
                 ModelState.AddModelError("Photo", "Photo cannot be empty");
                 return View();
             }
+
             if (invoice.StampPhoto == null)
             {
                 ModelState.AddModelError("StampPhoto", "Stamp Photo cannot be empty");
                 return View();
             }
+
             var fileName = await FileUtil.GenerateFileAsync(Constants.ImageFolderPath, invoice.Photo);
             invoice.Logo = fileName;
 
@@ -138,20 +141,22 @@ namespace Logistic.Controllers
             invoice.CorrespondentBankCustomerId = correspondetnBanksCustomer.Value;
             invoice.CorrespondentBankExpeditorId = correspondetnBanksExpeditor.Value;
             invoice.TransportDocumentId = (int)transportId;
-            invoice.Address = (await _context.Institutions.FirstAsync(x => x.Id == invoice.EkspeditorId)).PhysicalAddress;
+            invoice.Address = (await _context.Institutions.FirstAsync(x => x.Id == invoice.EkspeditorId))
+                .PhysicalAddress;
             invoice.Director = (await _context.Institutions.FirstAsync(x => x.Id == invoice.EkspeditorId)).Leader;
 
             await _context.AddRangeAsync(invoice);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
-
         }
 
 
         public async Task<IActionResult> Update(int? id)
         {
-            var institutions = await _context.Institutions.ToListAsync();
+            var institutions = await _context.Institutions
+                .Where(x => x.EnterpriseTypeId == 1)
+                .ToListAsync();
             ViewBag.Institutions = institutions;
             var customerLegalPeople = await _context.CustomerLegalPeople.ToListAsync();
             ViewBag.CustomerLegalPeople = customerLegalPeople;
@@ -168,11 +173,12 @@ namespace Logistic.Controllers
                 return NotFound();
             return View(invoice);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id, Invoice invoice, int? internalCompanyId, int? ekspeditorId, int? customerId, int? transportId,int? correspondetnBanksCustomer, int?correspondetnBanksExpeditor)
+        public async Task<IActionResult> Update(int? id, Invoice invoice, int? internalCompanyId, int? ekspeditorId,
+            int? customerId, int? transportId, int? correspondetnBanksCustomer, int? correspondetnBanksExpeditor)
         {
-
             if (!ModelState.IsValid)
             {
                 return View();
@@ -257,7 +263,8 @@ namespace Logistic.Controllers
             dbInvoice.InvoiceNumber = invoice.InvoiceNumber;
             dbInvoice.ContractNumber = invoice.ContractNumber;
             dbInvoice.Note = invoice.Note;
-            dbInvoice.Address = (await _context.Institutions.FirstAsync(x => x.Id == invoice.EkspeditorId)).PhysicalAddress;
+            dbInvoice.Address = (await _context.Institutions.FirstAsync(x => x.Id == invoice.EkspeditorId))
+                .PhysicalAddress;
             dbInvoice.Director = (await _context.Institutions.FirstAsync(x => x.Id == invoice.EkspeditorId)).Leader;
 
             dbInvoice.InternalCompanyId = (int)internalCompanyId;
@@ -298,8 +305,8 @@ namespace Logistic.Controllers
             foreach (var item in invoiceTables)
             {
                 _context.InvoiceTables.Remove(item);
-
             }
+
             await _context.SaveChangesAsync();
 
 

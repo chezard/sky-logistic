@@ -24,7 +24,8 @@ namespace Logistic.Controllers
 
         public IActionResult Index()
         {
-            var customerLegalPeople = _context.CustomerLegalPeople.Include(x => x.CustomerType).OrderByDescending(x => x.Id).ToList();
+            var customerLegalPeople = _context.CustomerLegalPeople.Include(x => x.CustomerType)
+                .OrderByDescending(x => x.Id).ToList();
             return View(customerLegalPeople);
         }
 
@@ -34,10 +35,12 @@ namespace Logistic.Controllers
             if (id == null)
                 return NotFound();
 
-            var customerLegalPerson = _context.CustomerLegalPeople.Include(x => x.Bank).Include(x => x.CustomerType).FirstOrDefault(x => x.Id == id);
+            var customerLegalPerson = _context.CustomerLegalPeople.Include(x => x.Bank).Include(x => x.CustomerType)
+                .FirstOrDefault(x => x.Id == id);
 
-            var customerLegalPersonTable = _context.CustomerLegalPersonTables.Where(x => x.CustomerLegalPersonId == id).Include(x => x.CustomerLegalPerson).Include(x => x.ContractType)
-                                                                             .Include(y => y.Valyuta).ToList();
+            var customerLegalPersonTable = _context.CustomerLegalPersonTables.Where(x => x.CustomerLegalPersonId == id)
+                .Include(x => x.CustomerLegalPerson).Include(x => x.ContractType)
+                .Include(y => y.Valyuta).ToList();
 
             if (customerLegalPerson == null)
                 return NotFound();
@@ -61,15 +64,16 @@ namespace Logistic.Controllers
 
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CustomerLegalPerson customerLegalPerson, int? customerTypeId, int? bankId)
+        public async Task<IActionResult> Create(CustomerLegalPerson customerLegalPerson, int? customerTypeId,
+            int? bankId)
         {
             var customerTypes = await _context.CustomerTypes.ToListAsync();
             ViewBag.CustomerTypes = customerTypes;
             var banks = await _context.Banks.ToListAsync();
             ViewBag.Banks = banks;
-
 
 
             //if (!ModelState.IsValid)
@@ -86,11 +90,13 @@ namespace Logistic.Controllers
                 ModelState.AddModelError("", "Zəhmət olmasa Bank qeyd edin");
                 return View();
             }
+
             if (customerTypeId == null)
             {
                 ModelState.AddModelError("", "Zəhmət olmasa Muteri növünü qeyd edin");
                 return View();
             }
+
             if (customerLegalPerson.File != null)
             {
                 Random random = new Random();
@@ -112,7 +118,6 @@ namespace Logistic.Controllers
             await _context.CustomerLegalPeople.AddAsync(customerLegalPerson);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-
         }
 
 
@@ -136,9 +141,11 @@ namespace Logistic.Controllers
                 return NotFound();
             return View(customerLegalPerson);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id, CustomerLegalPerson customerLegalPerson, int? customerTypeId, int? bankId, int? correspondentBankId)
+        public async Task<IActionResult> Update(int? id, CustomerLegalPerson customerLegalPerson, int? customerTypeId,
+            int? bankId, int? correspondentBankId)
         {
             //if (!ModelState.IsValid)
             //    return NotFound();
@@ -151,6 +158,7 @@ namespace Logistic.Controllers
                 ModelState.AddModelError("", "Zəhmət olmasa Bank qeyd edin");
                 return View();
             }
+
             if (customerTypeId == null)
             {
                 ModelState.AddModelError("", "Zəhmət olmasa Musteri növünü qeyd edin");
@@ -182,7 +190,6 @@ namespace Logistic.Controllers
                 using (FileStream stream = new FileStream(iconSPath, FileMode.Create))
                 {
                     customerLegalPerson.File.CopyTo(stream);
-
                 }
 
                 dbCustomerLegalPerson.FileName = fileName;
@@ -205,7 +212,6 @@ namespace Logistic.Controllers
             _context.UpdateRange(dbCustomerLegalPerson);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -213,7 +219,8 @@ namespace Logistic.Controllers
             if (id == null) return NotFound();
 
             var customerLegalPerson = await _context.CustomerLegalPeople.FindAsync(id);
-            var customerLegalPersonTables = await _context.CustomerLegalPersonTables.Where(x => x.CustomerLegalPersonId == id).ToListAsync();
+            var customerLegalPersonTables = await _context.CustomerLegalPersonTables
+                .Where(x => x.CustomerLegalPersonId == id).ToListAsync();
 
             if (customerLegalPerson == null) return NotFound();
 
@@ -231,10 +238,16 @@ namespace Logistic.Controllers
             foreach (var item in customerLegalPersonTables)
             {
                 _context.CustomerLegalPersonTables.Remove(item);
-
             }
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateList()
+        {
+            return Json(_context.CustomerLegalPeople.ToList());
         }
     }
 }

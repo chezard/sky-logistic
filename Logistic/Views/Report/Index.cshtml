@@ -28,9 +28,11 @@
                         <th>To</th>
                         <th>Commodity</th>
                         <th>Agent</th>
-                        <th>Expense</th>
+                        <th>Buy</th>
                         <th>Sell</th>
+                        <th>Profit</th>
                         <th>Payment</th>
+                        <th>Debt</th>
                         @*<th>Direction</th>
                             <th>Curr.</th>
                             <th>Qty</th>
@@ -92,14 +94,26 @@
                             <td>
                                 @transportDocumentTable.Institution.Name
                             </td>
-                            <td>
+                            <td class="class-totalBuy">
                                 @transportDocumentTable.CostList.Sum(x => x.Amount)
                             </td>
-                            <td>
+                            <td class="class-totalSell">
                                 @transportDocumentTable.ValueList.Sum(x => x.Amount)
                             </td>
-                            <td>
+                            <td class="class-totalProfit">
+                                @{
+                                    var profit = transportDocumentTable.ValueList.Sum(x => x.Amount) - @transportDocumentTable.CostList.Sum(x => x.Amount);
+                                }
+                                @profit
+                            </td>
+                            <td class="class-totalPayment">
                                 @transportDocumentTable.PaymentList.Sum(x => x.Amount)
+                            </td>
+                            <td class="class-totalDebt">
+                                @{
+                                    var debt = transportDocumentTable.ValueList.Sum(x => x.Amount) - @transportDocumentTable.PaymentList.Sum(x => x.Amount);
+                                }
+                                @debt
                             </td>
 
                         </tr>
@@ -117,13 +131,13 @@
 
     <script>
 
-        const totalRemainder = getTotal('class-totalRemainder')
-        const totalCommonSalary = getTotal('class-totalCommonSalary')
-        const totalEnd = getTotal('class-totalEnd')
-        const totalExpense = getTotal('class-totalExpense')
-        const totalSalary = getTotal('class-totalSalary')
+        const totalBuy = getTotal('class-totalBuy')
+        const totalSell = getTotal('class-totalSell')
+        const totalProfit = getTotal('class-totalProfit')
+        const totalPayment = getTotal('class-totalPayment')
+        const totalDebt = getTotal('class-totalDebt')
 
-        console.log(totalRemainder, totalCommonSalary, totalEnd, totalExpense, totalSalary)
+        console.log(totalBuy, totalSell, totalProfit, totalPayment, totalDebt)
 
         function getTotal(className) {
             let cells = document.querySelectorAll('.' + className)
@@ -138,35 +152,29 @@
 
         const tbody = document.getElementById('report-tbody')
         const tr = document.createElement('tr')
-        for (let i = 0; i < 13; i++) {
+        for (let i = 0; i < 11; i++) {
             tr.appendChild(document.createElement('td'))
         }
+        
+        let totalBuyTd = document.createElement('td')
+        totalBuyTd.innerText = totalBuy
+        tr.appendChild(totalBuyTd)
+        
+        let totalSellTd = document.createElement('td')
+        totalSellTd.innerText = totalSell
+        tr.appendChild(totalSellTd)
 
-        let totalSalaryTd = document.createElement('td')
-        totalSalaryTd.innerText = totalSalary
-        tr.appendChild(totalSalaryTd)
-
-        let totalExpenseTd = document.createElement('td')
-        totalExpenseTd.innerText = totalExpense
-        tr.appendChild(totalExpenseTd)
-
-        let totalEndTd = document.createElement('td')
-        totalEndTd.innerText = totalEnd
-        tr.appendChild(totalEndTd)
-
-        let totalCommonSalaryTd = document.createElement('td')
-        totalCommonSalaryTd.innerText = totalCommonSalary
-        tr.appendChild(totalCommonSalaryTd)
-
-
-        let totalRemainderTd = document.createElement('td')
-        totalRemainderTd.innerText = totalRemainder
-        tr.appendChild(totalRemainderTd)
-
-
-
-        tr.appendChild(document.createElement('td'))
-        tr.appendChild(document.createElement('td'))
+        let totalProfitTd = document.createElement('td')
+        totalProfitTd.innerText = totalProfit
+        tr.appendChild(totalProfitTd)
+        
+        let totalPaymentTd = document.createElement('td')
+        totalPaymentTd.innerText = totalPayment
+        tr.appendChild(totalPaymentTd)
+        
+        let totalDebtTd = document.createElement('td')
+        totalDebtTd.innerText = totalDebt
+        tr.appendChild(totalDebtTd)
 
         tbody.appendChild(tr)
 

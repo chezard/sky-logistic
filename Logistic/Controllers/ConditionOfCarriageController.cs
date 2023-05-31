@@ -20,7 +20,7 @@ namespace Logistic.Controllers
 
         public IActionResult Index()
         {
-            var conditionOfCarriages =_context.ConditionOfCarriages.ToList();
+            var conditionOfCarriages = _context.ConditionOfCarriages.ToList();
             return View(conditionOfCarriages);
         }
 
@@ -39,9 +39,9 @@ namespace Logistic.Controllers
 
         public IActionResult Create()
         {
-
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ConditionOfCarriage conditionOfCarriage)
@@ -53,7 +53,6 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
-
         }
 
         public IActionResult Update(int? id)
@@ -63,13 +62,12 @@ namespace Logistic.Controllers
 
             var conditionOfCarriage = _context.ConditionOfCarriages.FirstOrDefault(x => x.Id == id);
             return View(conditionOfCarriage);
-
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id, ConditionOfCarriage conditionOfCarriage)
         {
-
             if (!ModelState.IsValid)
             {
                 return View();
@@ -86,7 +84,6 @@ namespace Logistic.Controllers
 
             if (dbConditionOfCarriage == null)
                 return NotFound();
-
 
 
             dbConditionOfCarriage.Name = conditionOfCarriage.Name;
@@ -110,6 +107,12 @@ namespace Logistic.Controllers
             _context.ConditionOfCarriages.Remove(conditionOfCarriage);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UpdateList()
+        {
+            return Json(_context.ConditionOfCarriages.ToList());
         }
     }
 }

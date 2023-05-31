@@ -10,21 +10,21 @@
                 <h4 class="card-title">Müştərilər</h4>
                 <a asp-action="Create" class="btn btn-primary">Create</a>
                 <div class="table-responsive">
-                    <table data-ordering="false" class="data-table  index w-100">
+                    <table id="table-id" data-page-size="50" data-ordering="false" class="data-table index w-100">
                         <thead>
-                            <tr>
-                                
-                                @*<th>Id</th>*@
-                                <th>Customer Type</th>
-                                <th>Name</th>
-                                <th>Director</th>
-                                <th>Note</th>
-                                <th>Actions</th>
-                            </tr>
+                        <tr>
+
+                            @*<th>Id</th>*@
+                            <th>Customer Type</th>
+                            <th>Name</th>
+                            <th>Director</th>
+                            <th>Note</th>
+                            <th>Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (CustomerLegalPerson customerLegalPerson in customerLegalPeople)
-                            {
+                        @foreach (CustomerLegalPerson customerLegalPerson in customerLegalPeople)
+                        {
                             <tr>
                                 @*<td>
                                     @customerLegalPerson.Id
@@ -38,17 +38,17 @@
                                 <td>
                                     @customerLegalPerson.Manager
                                 </td>
-                                    <td>
-                                        @customerLegalPerson.Description
-                                    </td>
                                 <td>
-                                        <a style="padding:10px" asp-action="Detail" asp-route-id="@customerLegalPerson.Id" class="btn btn-success">Detail</a>
-                                        <a style="padding:10px" asp-action="Update" asp-route-id="@customerLegalPerson.Id" class="btn btn-warning">Edit</a>
-                                        <a style="padding:10px" asp-action="Delete" asp-route-id="@customerLegalPerson.Id" class="btn btn-danger delete">Delete</a>
+                                    @customerLegalPerson.Description
+                                </td>
+                                <td>
+                                    <a style="padding:10px" asp-action="Detail" asp-route-id="@customerLegalPerson.Id" class="btn btn-success">Detail</a>
+                                    <a style="padding:10px" asp-action="Update" asp-route-id="@customerLegalPerson.Id" class="btn btn-warning">Edit</a>
+                                    <a style="padding:10px" asp-action="Delete" asp-route-id="@customerLegalPerson.Id" class="btn btn-danger delete">Delete</a>
                                 </td>
 
                             </tr>
-                            }
+                        }
                         </tbody>
                     </table>
                 </div>
@@ -56,4 +56,3 @@
         </div>
     </div>
 </div>
-

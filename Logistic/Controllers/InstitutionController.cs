@@ -239,6 +239,14 @@ namespace Logistic.Controllers
         [HttpPost]
         public IActionResult UpdateList()
         {
+            var list = _context.Institutions.Where(x => x.EnterpriseTypeId == 2 || x.EnterpriseTypeId == 3).ToList();
+
+            return Json(list);
+        }
+        
+        [HttpPost]
+        public IActionResult UpdateListEnterpriseTypeId1()
+        {
             var list = _context.Institutions.Where(x => x.EnterpriseTypeId == 1).ToList();
 
             return Json(list);
