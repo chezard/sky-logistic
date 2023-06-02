@@ -8,280 +8,319 @@
 }
 
 <div class="row">
-    <div class="col-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Update</h4>
-                <form class="forms-sample" method="post" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="form-group">
-                            <input asp-for="TransportDocumentId" class="form-control" type="hidden">
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Condition</label>
-                                <select class="custom-select " name="conditionOfCarriageId">
-                                    @foreach (ConditionOfCarriage conditionOfCarriage in ViewBag.ConditionOfCarriages)
-                                    {
-                                        if (Model.ConditionOfCarriageId == conditionOfCarriage.Id)
-                                        {
-                                            <option selected value="@conditionOfCarriage.Id">@conditionOfCarriage.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@conditionOfCarriage.Id">@conditionOfCarriage.Name</option>
-
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Date">Date</label>
-                                <input type="date" asp-for="Date" class="form-control" placeholder="Date">
-                                <span asp-validation-for="Date" class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Status</label>
-                                <select class="custom-select " name="statusOfShipmentId">
-                                    @foreach (StatusOfShipment statusOfShipment in ViewBag.StatusOfShipments)
-                                    {
-                                        if (Model.StatusOfShipmentId == statusOfShipment.Id)
-                                        {
-                                            <option selected value="@statusOfShipment.Id">@statusOfShipment.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@statusOfShipment.Id">@statusOfShipment.Name</option>
-
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Transportation Type</label>
-                                <select class="custom-select " name="typeOfTransportationId">
-                                    @foreach (TypeOfTransportation typeOfTransportation in ViewBag.TypeOfTransportations)
-                                    {
-                                        if (Model.TypeOfTransportationId == typeOfTransportation.Id)
-                                        {
-                                            <option selected value="@typeOfTransportation.Id">@typeOfTransportation.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@typeOfTransportation.Id">@typeOfTransportation.Name</option>
-
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Direction Of Transportation</label>
-                                <select class="custom-select " name="directionOfTransportationId">
-                                    @foreach (DirectionOfTransportation directionOfTransportation in ViewBag.DirectionOfTransportations)
-                                    {
-                                        if (Model.DirectionOfTransportationId == directionOfTransportation.Id)
-                                        {
-                                            <option selected value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Customer</label>
-                                <select class="custom-select " name="customer">
-                                    @foreach (CustomerLegalPerson customerLegalperson in ViewBag.CustomerLegalPeople)
-                                    {
-                                        if (Model.Customer == customerLegalperson.Name)
-                                        {
-                                            <option selected value="@customerLegalperson.Name">@customerLegalperson.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@customerLegalperson.Name">@customerLegalperson.Name</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Agent</label>
-                                <select class="custom-select " name="institutionId">
-                                    @foreach (Institution institution in ViewBag.Institutions)
-                                    {
-                                        if (Model.InstitutionId == institution.Id)
-                                        {
-                                            <option selected value="@institution.Id">@institution.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@institution.Id">@institution.Name</option>
-
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>From Country</label>
-                                <select name="FirstCountry" class="form-control" id="countries">
-                                    @foreach (var country in firstCountryList)
-                                    {
-                                        if (Model.AddressFrom.Split("/")[0] == country.Name)
-                                        {
-                                            <option selected value="@country.Id">@country.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@country.Id">@country.Name</option>
-                                        }
-                                    }
-                                </select>
-                               
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>From City</label>
-                                <select name="FirstCity" class="form-control" id="cities">
-                                    @foreach (var city in firstCityList)
-                                    {
-                                        if (Model.AddressFrom.Split("/")[1] == city.Name)
-                                        {
-                                            <option selected value="@city.Id">@city.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@city.Id">@city.Name</option>
-                                        }
-                                    }
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>To Country</label>
-                                <select name="LastCountry" class="form-control" id="lastcountries">
-                                    @foreach (var country in lastCountryList)
-                                    {
-                                        if (Model.AddressTo.Split("/")[0] == country.Name)
-                                        {
-                                            <option selected value="@country.Id">@country.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@country.Id">@country.Name</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>To City</label>
-                                <select name="LastCity" class="form-control" id="lastcities">
-                                    @foreach (var city in lastCityList)
-                                    {
-                                        if (Model.AddressTo.Split("/")[1] == city.Name)
-                                        {
-                                            <option selected value="@city.Id">@city.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@city.Id">@city.Name</option>
-                                        }
-                                    }
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Curreny</label>
-                                <select class="custom-select " name="valyutaId">
-                                    @foreach (Valyuta valyuta in ViewBag.Valyutas)
-                                    {
-                                        if (Model.ValyutaId == valyuta.Id)
-                                        {
-                                            <option selected value="@valyuta.Id">@valyuta.Name</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@valyuta.Id">@valyuta.Name</option>
-                                        }
-                                    }
-                                </select>
-                            </div>
-
-
-
-
-
-
-                            <div class="form-group">
-                                <label asp-for="DriverName">Driver</label>
-                                <input asp-for="DriverName" class="form-control" placeholder="DriverName">
-                                <span asp-validation-for="DriverName" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="DriverPhone">DriverPhone</label>
-                                <input asp-for="DriverPhone" class="form-control" placeholder="DriverPhone">
-                                <span asp-validation-for="DriverPhone" class="text-danger"></span>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label asp-for="TruckPlate">TruckPlate</label>
-                                <input asp-for="TruckPlate" class="form-control" placeholder="TruckPlate">
-                                <span asp-validation-for="TruckPlate" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Name">Commodity</label>
-                                <input asp-for="Name" class="form-control" placeholder="Name">
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Count">Quantity</label>
-                                <input asp-for="Count" class="form-control" placeholder="Say">
-                                <span asp-validation-for="Count" class="text-danger"></span>
-                            </div>
-                            @* <div class="form-group"> *@
-                            @*     <label asp-for="Salary">Sale</label> *@
-                            @*     <input asp-for="Salary" class="form-control" placeholder="Gelir"> *@
-                            @*     <span asp-validation-for="Salary" class="text-danger"></span> *@
-                            @* </div> *@
-                            @* <div class="form-group"> *@
-                            @*     <label asp-for="CommonSalary">Common Salary</label> *@
-                            @*     <input asp-for="CommonSalary" class="form-control" placeholder="Paid"> *@
-                            @*     <span asp-validation-for="CommonSalary" class="text-danger"></span> *@
-                            @* </div> *@
-
-                            <div class="form-group form-group-float w-lg-50">
-                                <label>Manager</label>
-                                <select class="custom-select " name="personalId">
-                                    @foreach (Personal manager in ViewBag.Personals)
-                                    {
-                                        if (Model.PersonalId == manager.Id)
-                                        {
-                                            <option selected value="@manager.Id">@manager.Name</option>
-                                        }
-
-                                        {
-                                            <option value="@manager.Id">@manager.Name</option>
-
-                                        }
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Description">Description</label>
-                                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                                <span asp-validation-for="Description" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary mr-2">Update</button>
-                    <a asp-action="Index" class="btn btn-secondary">Go back</a>
-                </form>
-            </div>
+<div class="col-12 grid-margin stretch-card">
+<div class="card">
+<div class="card-body">
+<h4 class="card-title">Update</h4>
+<form class="forms-sample" method="post" enctype="multipart/form-data">
+<div class="row">
+<div class="form-group">
+    <input asp-for="TransportDocumentId" class="form-control" type="hidden">
+</div>
+<div class="col-6">
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>Condition</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/conditionofcarriage/create" target="_blank">+</a>
+            <button type="button" id="conditionofcarriage-refresh" class="btn btn-sm btn-primary">↻</button>
         </div>
     </div>
+    <select id="conditionofcarriage-list" class="custom-select " name="conditionOfCarriageId">
+        @foreach (ConditionOfCarriage conditionOfCarriage in ViewBag.ConditionOfCarriages)
+        {
+            if (Model.ConditionOfCarriageId == conditionOfCarriage.Id)
+            {
+                <option selected value="@conditionOfCarriage.Id">@conditionOfCarriage.Name</option>
+            }
+            else
+            {
+                <option value="@conditionOfCarriage.Id">@conditionOfCarriage.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group">
+    <label asp-for="Date">Date</label>
+    <input type="date" asp-for="Date" class="form-control" placeholder="Date">
+    <span asp-validation-for="Date" class="text-danger"></span>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>Status</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/statusofshipment/create" target="_blank">+</a>
+            <button type="button" id="statusofshipment-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select id="statusofshipment-list" class="custom-select " name="statusOfShipmentId">
+        @foreach (StatusOfShipment statusOfShipment in ViewBag.StatusOfShipments)
+        {
+            if (Model.StatusOfShipmentId == statusOfShipment.Id)
+            {
+                <option selected value="@statusOfShipment.Id">@statusOfShipment.Name</option>
+            }
+            else
+            {
+                <option value="@statusOfShipment.Id">@statusOfShipment.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>Transportation type</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/typeoftransportation/create" target="_blank">+</a>
+            <button type="button" id="typeoftransportation-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select id="typeoftransportation-list" class="custom-select " name="typeOfTransportationId">
+        @foreach (TypeOfTransportation typeOfTransportation in ViewBag.TypeOfTransportations)
+        {
+            if (Model.TypeOfTransportationId == typeOfTransportation.Id)
+            {
+                <option selected value="@typeOfTransportation.Id">@typeOfTransportation.Name</option>
+            }
+            else
+            {
+                <option value="@typeOfTransportation.Id">@typeOfTransportation.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>Direction</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/directionoftransportation/create" target="_blank">+</a>
+            <button type="button" id="directionoftransportation-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select id="directionoftransportation-list" class="custom-select " name="directionOfTransportationId">
+        @foreach (DirectionOfTransportation directionOfTransportation in ViewBag.DirectionOfTransportations)
+        {
+            if (Model.DirectionOfTransportationId == directionOfTransportation.Id)
+            {
+                <option selected value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
+            }
+            else
+            {
+                <option value="@directionOfTransportation.Id">@directionOfTransportation.Type</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>Customer</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/customerlegalperson/create" target="_blank">+</a>
+            <button type="button" id="customerlegalperson-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select id="customerlegalperson-list" class="custom-select " name="customer">
+        @foreach (CustomerLegalPerson customerLegalperson in ViewBag.CustomerLegalPeople)
+        {
+            if (Model.Customer == customerLegalperson.Name)
+            {
+                <option selected value="@customerLegalperson.Name">@customerLegalperson.Name</option>
+            }
+            else
+            {
+                <option value="@customerLegalperson.Name">@customerLegalperson.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>Agent</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/institution/create" target="_blank">+</a>
+            <button type="button" id="institution-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select id="institution-list" class="custom-select " name="InstitutionId">
+        @foreach (Institution institution in ViewBag.Institutions)
+        {
+            if (Model.InstitutionId == institution.Id)
+            {
+                <option selected value="@institution.Id">@institution.Name</option>
+            }
+            else
+            {
+                <option value="@institution.Id">@institution.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label>From</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/country/create" target="_blank">+</a>
+            <button type="button" id="country-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select name="FirstCountry" class="form-control" id="countries">
+        @foreach (var country in firstCountryList)
+        {
+            if (Model.AddressFrom.Split("/")[0] == country.Name)
+            {
+                <option selected value="@country.Id">@country.Name</option>
+            }
+            else
+            {
+                <option value="@country.Id">@country.Name</option>
+            }
+        }
+    </select>
+
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <div class="d-flex justify-content-between">
+        <label >City</label>
+        <div class="mb-1">
+            <a class="btn btn-sm btn-success" href="/city/create" target="_blank">+</a>
+            <button type="button" id="city-refresh" class="btn btn-sm btn-primary">↻</button>
+        </div>
+    </div>
+    <select name="FirstCity" class="form-control" id="cities">
+        @foreach (var city in firstCityList)
+        {
+            if (Model.AddressFrom.Split("/")[1] == city.Name)
+            {
+                <option selected value="@city.Id">@city.Name</option>
+            }
+            else
+            {
+                <option value="@city.Id">@city.Name</option>
+            }
+        }
+    </select>
+    <span class="text-danger"></span>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <label>To Country</label>
+    <select name="LastCountry" class="form-control" id="lastcountries">
+        @foreach (var country in lastCountryList)
+        {
+            if (Model.AddressTo.Split("/")[0] == country.Name)
+            {
+                <option selected value="@country.Id">@country.Name</option>
+            }
+            else
+            {
+                <option value="@country.Id">@country.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <label>To City</label>
+    <select name="LastCity" class="form-control" id="lastcities">
+        @foreach (var city in lastCityList)
+        {
+            if (Model.AddressTo.Split("/")[1] == city.Name)
+            {
+                <option selected value="@city.Id">@city.Name</option>
+            }
+            else
+            {
+                <option value="@city.Id">@city.Name</option>
+            }
+        }
+    </select>
+    <span class="text-danger"></span>
+</div>
+<div class="form-group form-group-float w-lg-50">
+    <label>Curreny</label>
+    <select class="custom-select " name="valyutaId">
+        @foreach (Valyuta valyuta in ViewBag.Valyutas)
+        {
+            if (Model.ValyutaId == valyuta.Id)
+            {
+                <option selected value="@valyuta.Id">@valyuta.Name</option>
+            }
+            else
+            {
+                <option value="@valyuta.Id">@valyuta.Name</option>
+            }
+        }
+    </select>
+</div>
+
+
+<div class="form-group">
+    <label asp-for="DriverName">Driver</label>
+    <input asp-for="DriverName" class="form-control" placeholder="DriverName">
+    <span asp-validation-for="DriverName" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="DriverPhone">DriverPhone</label>
+    <input asp-for="DriverPhone" class="form-control" placeholder="DriverPhone">
+    <span asp-validation-for="DriverPhone" class="text-danger"></span>
+</div>
+
+
+<div class="form-group">
+    <label asp-for="TruckPlate">TruckPlate</label>
+    <input asp-for="TruckPlate" class="form-control" placeholder="TruckPlate">
+    <span asp-validation-for="TruckPlate" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Name">Commodity</label>
+    <input asp-for="Name" class="form-control" placeholder="Name">
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Count">Quantity</label>
+    <input asp-for="Count" class="form-control" placeholder="Say">
+    <span asp-validation-for="Count" class="text-danger"></span>
+</div>
+@* <div class="form-group"> *@
+@*     <label asp-for="Salary">Sale</label> *@
+@*     <input asp-for="Salary" class="form-control" placeholder="Gelir"> *@
+@*     <span asp-validation-for="Salary" class="text-danger"></span> *@
+@* </div> *@
+@* <div class="form-group"> *@
+@*     <label asp-for="CommonSalary">Common Salary</label> *@
+@*     <input asp-for="CommonSalary" class="form-control" placeholder="Paid"> *@
+@*     <span asp-validation-for="CommonSalary" class="text-danger"></span> *@
+@* </div> *@
+
+<div class="form-group form-group-float w-lg-50">
+    <label>Manager</label>
+    <select class="custom-select " name="personalId">
+        @foreach (Personal manager in ViewBag.Personals)
+        {
+            if (Model.PersonalId == manager.Id)
+            {
+                <option selected value="@manager.Id">@manager.Name</option>
+            }
+
+            {
+                <option value="@manager.Id">@manager.Name</option>
+            }
+        }
+    </select>
+</div>
+<div class="form-group">
+    <label asp-for="Description">Description</label>
+    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+</div>
+</div>
+<button type="submit" class="btn btn-primary mr-2">Update</button>
+<a asp-action="Index" class="btn btn-secondary">Go back</a>
+</form>
+</div>
+</div>
+</div>
 </div>
 
 @section scripts {
@@ -339,9 +378,149 @@
                 }
             })
         })
+        
+        $(document).ready(function () {
+                        $('#country-refresh').click(function valyuta() {
+                                                                                                    $.ajax({
+                                                                                                        url: '/country/UpdateList',
+                                                                                                        type: 'POST',
+                                                                                                        success: function (response) {
+                                                                                                        const dropdown = $('#countries');
+                                                                                                        const lastDropdown = $('#lastcountries');
+                                                                                    
+                                                                                                            dropdown.empty();
+                                                                                                            lastDropdown.empty()
+                                                                                                            
+                                                                                                            for (let i = 0; i < response.length; i++) {
+                                                                                                                dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                                                                lastDropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                                });
+                                                                                            });
+                
+                 $(document).ready(function () {
+                        $('#valyuta-refresh').click(function valyuta() {
+                                                                                                    $.ajax({
+                                                                                                        url: '/valyuta/UpdateList',
+                                                                                                        type: 'POST',
+                                                                                                        success: function (response) {
+                                                                                                        const dropdown = $('#valyuta-list');
+                                                                                    
+                                                                                                            dropdown.empty();
+                                                                                                            for (let i = 0; i < response.length; i++) {
+                                                                                                                dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                                });
+                                                                                            });
+                
+                 $(document).ready(function () {
+                $('#customerlegalperson-refresh').click(function () {
+                                                                                            $.ajax({
+                                                                                                url: '/customerlegalperson/UpdateList',
+                                                                                                type: 'POST',
+                                                                                                success: function (response) {
+                                                                                                const dropdown = $('#customerlegalperson-list');
+                                                                            
+                                                                                                    dropdown.empty();
+                                                                                                    for (let i = 0; i < response.length; i++) {
+                                                                                                        dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                                                    }
+                                                                                                }
+                                                                                            });
+                                                                                        });
+                                                                                    });
+                
+                $(document).ready(function () {
+                                                                                $('#institution-refresh').click(function () {
+                                                                                    $.ajax({
+                                                                                        url: '/institution/UpdateList',
+                                                                                        type: 'POST',
+                                                                                        success: function (response) {
+                                                                                        const dropdown = $('#institution-list');
+                                                                    
+                                                                                            dropdown.empty();
+                                                                                            for (let i = 0; i < response.length; i++) {
+                                                                                                dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                                });
+                                                                            });
+                
+                         $(document).ready(function () {
+                                                                        $('#directionoftransportation-refresh').click(function () {
+                                                                            $.ajax({
+                                                                                url: '/directionoftransportation/UpdateList',
+                                                                                type: 'POST',
+                                                                                success: function (response) {
+                                                                                const dropdown = $('#directionoftransportation-list');
+                                                            
+                                                                                    dropdown.empty();
+                                                                                    for (let i = 0; i < response.length; i++) {
+                                                                                        dropdown.append('<option value="' + response[i].id + '">' + response[i].type +'</option>');  
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        });
+                                                                    });
+                
+                 $(document).ready(function () {
+                                                                $('#typeoftransportation-refresh').click(function () {
+                                                                    $.ajax({
+                                                                        url: '/typeoftransportation/UpdateList',
+                                                                        type: 'POST',
+                                                                        success: function (response) {
+                                                                        const dropdown = $('#typeoftransportation-list');
+                                                    
+                                                                            dropdown.empty();
+                                                                            for (let i = 0; i < response.length; i++) {
+                                                                                dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                });
+                                                            });
+                
+                $(document).ready(function () {
+                                                        $('#conditionofcarriage-refresh').click(function () {
+                                                            $.ajax({
+                                                                url: '/conditionofcarriage/UpdateList',
+                                                                type: 'POST',
+                                                                success: function (response) {
+                                                                const dropdown = $('#conditionofcarriage-list');
+                                            
+                                                                    dropdown.empty();
+                                                                    for (let i = 0; i < response.length; i++) {
+                                                                        dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                                    }
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                
+                  $(document).ready(function () {
+                                    $('#statusofshipment-refresh').click(function () {
+                                        $.ajax({
+                                            url: '/statusofshipment/UpdateList',
+                                            type: 'POST',
+                                            success: function (response) {
+                                            const dropdown = $('#statusofshipment-list');
+                        
+                                                dropdown.empty();
+                                                for (let i = 0; i < response.length; i++) {
+                                                    dropdown.append('<option value="' + response[i].id + '">' + response[i].name +'</option>');  
+                                                }
+                                            }
+                                        });
+                                    });
+                                });
     </script>
 
-    }
+}
 
 
 @* <script>
@@ -465,5 +644,3 @@
             })
         })
     </script>*@
-
-

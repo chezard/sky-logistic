@@ -10,10 +10,9 @@
                 <h4 class="card-title">Invoice</h4>
                 <a asp-action="Create" class="btn btn-primary">Create</a>
                 <div class="table-responsive">
-                    <table data-ordering="false" class="data-table  index w-100">
+                    <table data-ordering="false" data-page-size="50" class="data-table  index w-100">
                         <thead>
                             <tr>
-
                                 <th>Id</th>
                                 <th>Date</th>
                                 <th>Invoice №</th>
@@ -29,7 +28,7 @@
                                         @invoice.Id
                                     </td>
                                     <td>
-                                        @invoice.Date
+                                        @invoice.Date.ToShortDateString()
                                     </td>
                                     <td>
                                         @invoice.InvoiceNumber
