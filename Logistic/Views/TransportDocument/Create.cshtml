@@ -74,7 +74,7 @@
                             </div>
                             <div class="form-group form-group-float w-lg-50">
                                 <label asp-for="Date">Date</label>
-                                <input type="date" asp-for="Date" class="form-control" placeholder="Date">
+                                <input id="date-input" type="date" asp-for="Date" class="form-control" placeholder="Date">
                                 <span asp-validation-for="Date" class="text-danger"></span>
                             </div>
                             <div class="form-group form-group-float w-lg-50">
@@ -135,7 +135,11 @@
 
     <script>
 
-
+  window.onload = function() {
+    var dateInput = document.getElementById('date-input');
+    var today = new Date().toISOString().split('T')[0];
+    dateInput.value = today;
+  };
 
         //$("#countries").change(function () {
         //    console.log('RUNNED')
