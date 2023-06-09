@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-@using Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Index";
     List<TransportDocument> transportDocuments = Model;
@@ -38,15 +37,22 @@
 
 
                                 <td>
-                                    @*<a asp-action="Detail" asp-route-id="@transportDocument.Id" class="btn btn-success">Detail</a>*@
-                                    <a style="padding:10px" asp-action="DetailAll" asp-route-id="@transportDocument.Id" class="btn btn-success">Detail All</a>
+                                    <a style="padding:10px" asp-action="Detail" asp-route-id="@transportDocument.Id" class="btn btn-info">View</a>
                                     @if (transportDocument.IsLocked == false)
                                     {
+                                        <a style="padding:10px" asp-action="DetailAll" asp-route-id="@transportDocument.Id" class="btn btn-success">Detail All</a>
                                         <a style="padding:10px" asp-action="Update" asp-route-id="@transportDocument.Id" class="btn btn-warning">Edit</a>
                                     }
                                     @if (User.IsInRole("Admin"))
                                     {
-                                        <a style="padding:10px" asp-action="Lock" asp-route-id="@transportDocument.Id" class="btn btn-danger">Lock/Unlock</a>
+                                        if (transportDocument.IsLocked)
+                                        {
+                                            <a style="padding:10px" asp-action="Lock" asp-route-id="@transportDocument.Id" class="btn btn-danger">Unlock</a>
+                                        }
+                                        else
+                                        {
+                                            <a style="padding:10px" asp-action="Lock" asp-route-id="@transportDocument.Id" class="btn btn-danger">Lock</a>
+                                        }
                                     }
                                     @* <a style="padding:10px" asp-action="Delete" asp-route-id="@transportDocument.Id" class="btn btn-danger delete">Delete</a> *@
                                 </td>
