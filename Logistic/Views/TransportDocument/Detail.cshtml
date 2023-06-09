@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Globalization
+@{
     ViewData["Title"] = "Detail";
     TransportDocument transportDocument = Model;
 }
@@ -17,6 +18,7 @@
                         <th scope="row">Id</th>
                         <td>
                             SL @transportDocument.Id
+                            <input id="id" class="d-none" type="text" value="@transportDocument.Id">
                         </td>
                     </tr>
                     <tr>
@@ -46,7 +48,14 @@
                     <tr>
                         <th scope="row">Date</th>
                         <td>
-                            @transportDocument.Date.ToShortDateString()
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input id="date-input" type="date" class="form-control" placeholder="Date" value="@transportDocument.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)">
+                                </div>
+                                <div class="col-md-6">
+                                    <button id="date-input-update-button" class="btn btn-warning">Edit</button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -86,3 +95,26 @@
     </div>
 
 </div>
+
+@section Scripts{
+
+    <script >
+    
+    $('#date-input-update-button').click(()=>{
+        const dateTime = $('#date-input').val()
+        const id = $('#id').val()
+        const data = {dateTime, id : Number(id)}
+        $.ajax({
+                            url: `/TransportDocument/UpdateDate`,
+                            type: 'PUT',
+                            data: JSON.stringify(data),
+                            contentType: "application/json",
+                            success: function (response) {
+                                window.location.reload()
+                            }
+                        });
+    })
+    
+    </script>
+
+}

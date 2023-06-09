@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data;
+using Logistic.Dtos;
 
 namespace Logistic.Controllers
 {
@@ -57,7 +58,7 @@ namespace Logistic.Controllers
                 .Include(x => x.ConditionOfCarriage).Include(y => y.StatusOfShipment)
                 .Include(y => y.TypeOfTransportation).Include(y => y.DirectionOfTransportation)
                 .Include(x => x.Institution).Include(x => x.Valyuta)
-                .Include(x => x.Personal).Include(x => x.CostList).Include(x=>x.ValueList).Include(x=>x.PaymentList)
+                .Include(x => x.Personal).Include(x => x.CostList).Include(x => x.ValueList).Include(x => x.PaymentList)
                 .ToList();
 
             if (transportDocument == null)
@@ -248,7 +249,7 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        
+
         public async Task<IActionResult> Lock(int? id)
         {
             var transportDocument = await _context.TransportDocuments.FirstOrDefaultAsync(x => x.Id == id);
@@ -256,6 +257,16 @@ namespace Logistic.Controllers
             _context.TransportDocuments.Update(transportDocument);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateDate([FromBody] DateTimeUpdateRequest request)
+        {
+            var transportDocument = await _context.TransportDocuments.SingleOrDefaultAsync(x => x.Id == request.Id);
+            transportDocument.Date = request.DateTime;
+            _context.TransportDocuments.Update(transportDocument);
+            await _context.SaveChangesAsync();
+            return Ok("OK");
         }
     }
 }
