@@ -337,12 +337,25 @@ namespace Logistic.Controllers
 
             if (transportDocumentTable == null) return NotFound();
             var tId = transportDocumentTable.TransportDocumentId;
-            var expense = await _context.ApportionmentOfCostTables.Where(x => x.TransportDocumentTableId == id).ToListAsync();
-            foreach (var exp in expense)
+            var costTables = await _context.ApportionmentOfCostTables.Where(x => x.TransportDocumentTableId == id).ToListAsync();
+            var valueTables = await _context.ApportionmentOfValueTables.Where(x => x.TransportDocumentTableId == id).ToListAsync();
+            var paymentTables = await _context.ApportionmentOfPaymentTables.Where(x => x.TransportDocumentTableId == id).ToListAsync();
+            
+            foreach (var exp in costTables)
             {
                 _context.ApportionmentOfCostTables.Remove(exp);
-
             }
+            
+            foreach (var value in valueTables)
+            {
+                _context.ApportionmentOfValueTables.Remove(value);
+            }
+            
+            foreach (var payment in paymentTables)
+            {
+                _context.ApportionmentOfPaymentTables.Remove(payment);
+            }
+            
             _context.TransportDocumentTables.Remove(transportDocumentTable);
             await _context.SaveChangesAsync();
             return RedirectToAction("DetailAll", "TransportDocument", new { id = tId });
