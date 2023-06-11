@@ -11,12 +11,29 @@
                 <h4 class="card-title">
                     DAŞINMA SƏNƏDİ
                 </h4>
-                <a asp-action="Create" class="btn btn-primary">Create</a>
+                <div class="row">
+                    <div class="col-md-1">
+                        <a asp-action="Create" class="btn btn-primary">Create</a>
+                    </div>
+                    <div class="col-md-2" style="display: flex; justify-content: center; align-items: center;">
+                        <label class="m-0">Create copy of this SL: </label>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="copy-transport-document-id" class="custom-select " name="assistant1Id">
+                            @foreach (var transportDocument in transportDocuments)
+                            {
+                                <option value="@transportDocument.Id">SL @transportDocument.Id</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button id="create-copy-button" class="btn btn-secondary">Create Copy</button>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table data-ordering="false" class="data-table  index w-100">
                         <thead>
                         <tr>
-
                             <th>Id</th>
                             @*<th>Manager</th>*@
                             <th>Actions</th>
@@ -66,3 +83,22 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+
+    <script >
+
+        $('#create-copy-button').click(function() {
+        const copiedTransportDocumentId = $('#copy-transport-document-id').val()
+                            
+        $.ajax({
+            url: `/transportdocument/createcopy/${copiedTransportDocumentId}`,
+            type: "POST",
+            success: function(response) {
+                window.location.reload()
+            }
+        })}) 
+    
+    </script>
+
+}

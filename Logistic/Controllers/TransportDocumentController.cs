@@ -268,5 +268,113 @@ namespace Logistic.Controllers
             await _context.SaveChangesAsync();
             return Ok("OK");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCopy(int id)
+        {
+            var willCopiedTransportDocument = await _context.TransportDocuments
+                .Include(td => td.TransportDocumentTables)
+                .ThenInclude(tdt => tdt.CostList)
+                .Include(td => td.TransportDocumentTables)
+                .ThenInclude(tdt => tdt.ValueList)
+                .Include(td => td.TransportDocumentTables)
+                .ThenInclude(tdt => tdt.PaymentList)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            var newTransportDocument = new TransportDocument()
+            {
+                Assistant1Id = willCopiedTransportDocument.Assistant1Id,
+                InstitutionId = willCopiedTransportDocument.InstitutionId,
+                Date = willCopiedTransportDocument.Date,
+                FirstAddress = willCopiedTransportDocument.FirstAddress,
+                LastAddress = willCopiedTransportDocument.LastAddress,
+                IsLocked = false,
+                Assistant2 = willCopiedTransportDocument.Assistant2,
+                Assistant3 = willCopiedTransportDocument.Assistant3,
+                Assistant4 = willCopiedTransportDocument.Assistant4,
+                PaymentTypeId = willCopiedTransportDocument.PaymentTypeId,
+                DirectionOfTransportationId = willCopiedTransportDocument.DirectionOfTransportationId
+            };
+
+            await _context.TransportDocuments.AddAsync(newTransportDocument);
+            await _context.SaveChangesAsync();
+
+            var nnn = newTransportDocument;
+
+            var newTransportDocumentTables = willCopiedTransportDocument.TransportDocumentTables
+                .Select(tdt => new TransportDocumentTable()
+                {
+                    TransportDocumentId = newTransportDocument.Id,
+                    Count = tdt.Count,
+                    Name = tdt.Name,
+                    Date = tdt.Date,
+                    Customer = tdt.Customer,
+                    InstitutionId = tdt.InstitutionId,
+                    Description = tdt.Description,
+                    Salary = tdt.Salary,
+                    AddressFrom = tdt.AddressFrom,
+                    AddressTo = tdt.AddressTo,
+                    ValyutaId = tdt.ValyutaId,
+                    PersonalId = tdt.PersonalId,
+                    CommonSalary = tdt.CommonSalary,
+                    DriverName = tdt.DriverName,
+                    DriverPhone = tdt.DriverPhone,
+                    TruckPlate = tdt.TruckPlate,
+                    ConditionOfCarriageId = tdt.ConditionOfCarriageId,
+                    DirectionOfTransportationId = tdt.DirectionOfTransportationId,
+                    StatusOfShipmentId = tdt.StatusOfShipmentId,
+                    TypeOfTransportationId = tdt.TypeOfTransportationId
+                }).ToList();
+
+            for (int i = 0; i < newTransportDocumentTables.Count; i++)
+            {
+                await _context.TransportDocumentTables.AddAsync(newTransportDocumentTables[i]);
+                await _context.SaveChangesAsync();
+
+                var newCostList = willCopiedTransportDocument.TransportDocumentTables[i].CostList
+                    .Select(x => new ApportionmentOfCostTable()
+                    {
+                        TransportDocumentTableId = newTransportDocumentTables[i].Id,
+                        ValyutaId = x.ValyutaId,
+                        Date = x.Date,
+                        Amount = x.Amount,
+                        Expense = x.Expense,
+                        Note = x.Note
+                    }).ToList();
+
+                newCostList.ForEach(x => _context.ApportionmentOfCostTables.Add(x));
+
+                var newPaymentList = willCopiedTransportDocument.TransportDocumentTables[i].PaymentList
+                    .Select(x => new ApportionmentOfPaymentTable()
+                    {
+                        TransportDocumentTableId = newTransportDocumentTables[i].Id,
+                        ValyutaId = x.ValyutaId,
+                        Date = x.Date,
+                        Amount = x.Amount,
+                        Expense = x.Expense,
+                        Note = x.Note
+                    }).ToList();
+
+                newPaymentList.ForEach(x => _context.ApportionmentOfPaymentTables.Add(x));
+
+
+                var newValueList = willCopiedTransportDocument.TransportDocumentTables[i].ValueList
+                    .Select(x => new ApportionmentOfValueTable()
+                    {
+                        TransportDocumentTableId = newTransportDocumentTables[i].Id,
+                        ValyutaId = x.ValyutaId,
+                        Date = x.Date,
+                        Amount = x.Amount,
+                        Expense = x.Expense,
+                        Note = x.Note
+                    }).ToList();
+
+                newValueList.ForEach(x => _context.ApportionmentOfValueTables.Add(x));
+
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
     }
 }
