@@ -35,7 +35,8 @@
                         <thead>
                         <tr>
                             <th>Id</th>
-                            @*<th>Manager</th>*@
+                            <th>Customer</th>
+                            <th>Date</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -46,12 +47,8 @@
                                 <td>
                                     SL @transportDocument.Id
                                 </td>
-
-
-                                @*<td>
-                                        @transportDocument.TransportDocumentTables
-                                    </td>*@
-
+                                <td>@transportDocument.Institution.Name</td>
+                                <td>@transportDocument.Date.ToShortDateString()</td>
 
                                 <td>
                                     <a style="padding:10px" asp-action="Detail" asp-route-id="@transportDocument.Id" class="btn btn-info">View</a>

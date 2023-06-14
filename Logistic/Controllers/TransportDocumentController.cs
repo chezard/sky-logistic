@@ -23,7 +23,9 @@ namespace Logistic.Controllers
 
         public IActionResult Index()
         {
-            var transportDocuments = _context.TransportDocuments.OrderByDescending(x => x.Id).ToList();
+            var transportDocuments = _context.TransportDocuments
+                .Include(x => x.Institution)
+                .OrderByDescending(x => x.Id).ToList();
             return View(transportDocuments);
         }
 
