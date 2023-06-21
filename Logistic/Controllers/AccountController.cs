@@ -40,14 +40,14 @@ namespace Logistic.Controllers
             var existUser = await _userManager.FindByEmailAsync(login.Email);
             if (existUser == null)
             {
-                ModelState.AddModelError("", "Email yada Password sefdi");
+                ModelState.AddModelError("", "Email və ya Şifrə yanlışdır!");
                 return View();
             }
 
             var loginResult = await _signInManager.PasswordSignInAsync(existUser, login.Password, login.RememberMe, true);
             if (!loginResult.Succeeded)
             {
-                ModelState.AddModelError("", "Email yada Password sefdi");
+                ModelState.AddModelError("", "Email və ya Şifrə yanlışdır!");
                 return View();
             }
 

@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table data-ordering="false" class="data-table  index w-100">
+                    <table data-ordering="false" data-page-length="50" class="data-table  index w-100">
                         <thead>
                         <tr>
                             <th>Id</th>
@@ -69,11 +69,11 @@
                                     {
                                         if (transportDocument.IsLocked)
                                         {
-                                            <a style="padding:10px" asp-action="Lock" asp-route-id="@transportDocument.Id" class="btn btn-danger">Unlock</a>
+                                            <button id="@transportDocument.Id-unlock" onclick="unlock(@transportDocument.Id)" style="padding:10px" class="btn btn-danger">Unlock</button>
                                         }
                                         else
                                         {
-                                            <a style="padding:10px" asp-action="Lock" asp-route-id="@transportDocument.Id" class="btn btn-danger">Lock</a>
+                                            <button id="@transportDocument.Id-lock" onclick="lock(@transportDocument.Id)" style="padding:10px"  class="btn btn-danger">Lock</button>
                                         }
                                     }
                                     @* <a style="padding:10px" asp-action="Delete" asp-route-id="@transportDocument.Id" class="btn btn-danger delete">Delete</a> *@
@@ -102,7 +102,31 @@
             success: function(response) {
                 window.location.reload()
             }
-        })}) 
+        })})  
+        
+        function lock(id){
+            document.getElementById(`${id}-lock`).classList.add('btn-secondary')
+            document.getElementById(`${id}-lock`).classList.remove('btn-danger')
+            $.ajax({
+                        url: `/transportdocument/lock/${id}`,
+                        type: "GET",
+                        success: function(response) {
+                            // window.location.reload()
+                        }
+                    })  
+        }
+        
+        function unlock(id){
+                     document.getElementById(`${id}-unlock`).classList.add('btn-secondary')
+                     document.getElementById(`${id}-unlock`).classList.remove('btn-danger')
+                    $.ajax({
+                                url: `/transportdocument/lock/${id}`,
+                                type: "GET",
+                                success: function(response) {
+                                    // window.location.reload()
+                                }
+                            })  
+                }
     
     </script>
 

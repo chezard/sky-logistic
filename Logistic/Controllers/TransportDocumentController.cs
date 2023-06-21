@@ -258,7 +258,7 @@ namespace Logistic.Controllers
             transportDocument.IsLocked = !transportDocument.IsLocked;
             _context.TransportDocuments.Update(transportDocument);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Ok("Ok");
         }
 
         [HttpPut]
