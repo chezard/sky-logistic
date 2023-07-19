@@ -48,13 +48,6 @@
                                     SL @transportDocument.Id
                                 </td>
                                 <td>
-                                    @{
-                                        var customerList = transportDocument.TransportDocumentTables
-                                            .Select(x => x.Customer)
-                                            .ToList();
-                                        var stringCustomerList = string.Join(",",customerList);
-                                    }
-                                    @stringCustomerList
                                 </td>
                                 <td>@transportDocument.Date.ToShortDateString()</td>
 
