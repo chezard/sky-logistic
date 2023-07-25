@@ -47,8 +47,7 @@
                                 <td>
                                     SL @transportDocument.Id
                                 </td>
-                                <td>
-                                </td>
+                                <td id="@transportDocument.Id-customer-td"></td>
                                 <td>@transportDocument.Date.ToShortDateString()</td>
 
                                 <td>
@@ -66,10 +65,11 @@
                                         }
                                         else
                                         {
-                                            <button id="@transportDocument.Id-lock" onclick="lock(@transportDocument.Id)" style="padding:10px"  class="btn btn-danger">Lock</button>
+                                            <button id="@transportDocument.Id-lock" onclick="lock(@transportDocument.Id)" style="padding:10px" class="btn btn-danger">Lock</button>
                                         }
                                     }
-                                    @* <a style="padding:10px" asp-action="Delete" asp-route-id="@transportDocument.Id" class="btn btn-danger delete">Delete</a> *@
+                                    
+                                    <a id="@transportDocument.Id-show-customer" onclick="showCustomer(@transportDocument.Id)" style="padding:10px" class="btn btn-secondary">Show Customer</a>
                                 </td>
 
                             </tr>
@@ -120,6 +120,19 @@
                                 }
                             })  
                 }
+                
+        function showCustomer(id){
+            
+              $.ajax({
+                                            url: `/transportdocument/GetCustomers/${id}`,
+                                            type: "GET",
+                                            success: function(response) {
+                                                const td = document.getElementById(id+"-customer-td")
+                                                td.innerHTML = response
+                                            }
+                                        })  
+            
+        }
     
     </script>
 

@@ -378,5 +378,20 @@ namespace Logistic.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<string> GetCustomers(int transportDocumentId)
+        {
+            var transportDocument = await _context.TransportDocuments
+                .Include(x => x.TransportDocumentTables)
+                .SingleOrDefaultAsync(x => x.Id == transportDocumentId);
+
+            var customerList = transportDocument
+                .TransportDocumentTables
+                .Select(x => x.Customer)
+                .ToList();
+            
+            return string.Join(", ", customerList);
+        }
     }
 }
